@@ -1,0 +1,8 @@
+Flask
+pytest
+pytest-flask
+Flask-SQLAlchemy
+Flask-JWT-Extended
+Werkzeug
+stripe 
+python-dotenv
