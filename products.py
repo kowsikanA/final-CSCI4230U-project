@@ -1,9 +1,57 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from extensions import db
 from models import Product, User
+import os
+import stripe
+from decimal import Decimal
 
 products_bp = Blueprint("products", __name__, url_prefix="/api")
+
+stripe.api_key =  os.getenv("STRIPE_API_KEY")
+
+
+def add_stripe_products(): # helper function
+    """Sync products from Stripe into the local Product table."""
+    if not stripe.api_key:
+        # If key is missing, just skip Stripe sync instead of crashing
+        current_app.logger.warning("STRIPE_SECRET_KEY not configured; skipping Stripe sync.")
+        return
+
+    try:
+        stripe_products = stripe.Product.list(limit=100, expand=["data.default_price"])
+    except Exception as e:
+        # Log but don't kill the request
+        current_app.logger.error(f"Stripe error while syncing products: {e}")
+        return
+
+    for sp in stripe_products.auto_paging_iter():
+        default_price = sp.default_price
+
+
+        if default_price and default_price.unit_amount is not None:
+            price = (Decimal(default_price.unit_amount) / Decimal(100)).quantize(Decimal("0.01"))
+        else:
+            price = Decimal("0.00")
+
+        exists = Product.query.filter_by(name=sp.name).first()
+        if exists:
+            exists.price = price
+            exists.available = sp.active
+            exists.image_url = sp.images[0] if sp.images else None
+            exists.description = sp.description
+        else:
+            p = Product(
+                name=sp.name,
+                price=price,
+                image_url=sp.images[0] if sp.images else None,
+                inventory=0,
+                available=sp.active,
+                description=sp.description,
+            )
+            db.session.add(p)
+
+    db.session.commit()
 
 
 # -------------------------------
@@ -12,6 +60,7 @@ products_bp = Blueprint("products", __name__, url_prefix="/api")
 @products_bp.route("/products", methods=["GET"])
 def list_products():
     """List all products"""
+    add_stripe_products()
     products = Product.query.all()
     return jsonify([product.to_dict() for product in products]), 200
 
@@ -35,10 +84,14 @@ def create_product():
         return jsonify({"error": "name required"}), 400
     
     current_username = get_jwt_identity()
-    user = User.query.filter_by(username=current_username).first()
+    user = User.query.filter_by(email=current_username).first()
     if not user:
         return jsonify({"error": "user not found"}), 404
 
+    try:
+        inventory = int(inventory)
+    except Exception:
+        return jsonify({"error": "inventory should be an integer"}), 400
     new_product = Product(
         name=name,
         price=price,
@@ -73,7 +126,7 @@ def get_product(product_id):
 def update_product(product_id):
     """Update an product."""
     current_username = get_jwt_identity()
-    user = User.query.filter_by(username=current_username).first()
+    user = User.query.filter_by(email=current_username).first()
     if not user:
         return jsonify({"error": "user not found"}), 404
 
@@ -110,7 +163,7 @@ def update_product(product_id):
 def delete_product(product_id):
     """Delete an product"""
     current_username = get_jwt_identity()
-    user = User.query.filter_by(username=current_username).first()
+    user = User.query.filter_by(email=current_username).first()
     if not user:
         return jsonify({"error": "user not found"}), 404
 
