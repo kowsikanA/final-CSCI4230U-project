@@ -15,13 +15,13 @@ orders_bp = Blueprint("orders", __name__, url_prefix="/api")
 def list_orders():
     """List all orders for the authenticated user."""
     current_username = get_jwt_identity()
-    user = User.query.filter_by(username=current_username).first()
+    user = User.query.filter_by(email=current_username).first()
     if not user:
         return jsonify({"error": "user not found"}), 404
 
 
     orders = Order.query.filter_by(user_id=user.id).all()
-    return jsonify(orders.to_dict()for order in orders), 200
+    return jsonify([order.to_dict() for order in orders]), 200
 
 
 # -------------------------------
@@ -32,7 +32,7 @@ def list_orders():
 def create_order_from_cart():
     """Create an order from the authenticated user's cart (snapshots prices)."""
     current_username = get_jwt_identity()
-    user = User.query.filter_by(username=current_username).first()
+    user = User.query.filter_by(email=current_username).first()
     if not user:
         return jsonify({"error": "user not found"}), 404
 
@@ -75,7 +75,7 @@ def create_order_from_cart():
 def get_order(order_id: int):
     """Retrieve a single order for the authenticated user."""
     current_username = get_jwt_identity()
-    user = User.query.filter_by(username=current_username).first()
+    user = User.query.filter_by(email=current_username).first()
     if not user:
         return jsonify({"error": "user not found"}), 404
 
@@ -94,7 +94,7 @@ def get_order(order_id: int):
 def mark_order_paid(order_id: int):
     """Mark an order as paid (useful if not using Stripe webhooks yet)."""
     current_username = get_jwt_identity()
-    user = User.query.filter_by(username=current_username).first()
+    user = User.query.filter_by(email=current_username).first()
     if not user:
         return jsonify({"error": "user not found"}), 404
 
@@ -118,7 +118,7 @@ def mark_order_paid(order_id: int):
 def cancel_order(order_id: int):
     """Cancel a pending order for the authenticated user."""
     current_username = get_jwt_identity()
-    user = User.query.filter_by(username=current_username).first()
+    user = User.query.filter_by(email=current_username).first()
     if not user:
         return jsonify({"error": "user not found"}), 404
 

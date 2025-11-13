@@ -14,13 +14,13 @@ carts_bp = Blueprint("cart", __name__, url_prefix="/api")
 def list_cart():
     """List all carts"""
     current_username = get_jwt_identity()
-    user = User.query.filter_by(username=current_username).first()
+    user = User.query.filter_by(email=current_username).first()
     if not user:
         return jsonify({"error": "user not found"}), 404
 
 
     cart_items = CartItem.query.filter_by(user_id=user.id).all()
-    return jsonify([cart_items.to_dict() for cart in cart_items]), 200
+    return jsonify([cart.to_dict() for cart in cart_items]), 200
 
 
 # -------------------------------
@@ -51,7 +51,7 @@ def add_to_cart():
         return jsonify({"error": "product not found"}), 404
 
     current_username = get_jwt_identity()
-    user = User.query.filter_by(username=current_username).first()
+    user = User.query.filter_by(email=current_username).first()
     if not user:
         return jsonify({"error": "user not found"}), 404
 
@@ -77,7 +77,7 @@ def update_cart(cart_id: int):
     cart_item = CartItem.query.get(cart_id)
     
     current_username = get_jwt_identity()
-    user = User.query.filter_by(username=current_username).first()
+    user = User.query.filter_by(email=current_username).first()
     if not user:
         return jsonify({"error": "user not found"}), 404
 
@@ -107,7 +107,7 @@ def update_cart(cart_id: int):
 def delete_cart_item(cart_id: int):
     """Remove a cart item for the authenticated user."""
     current_username = get_jwt_identity()
-    user = User.query.filter_by(username=current_username).first()
+    user = User.query.filter_by(email=current_username).first()
     if not user:
         return jsonify({"error": "user not found"}), 404
 
