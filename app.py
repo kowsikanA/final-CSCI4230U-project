@@ -3,9 +3,13 @@ from extensions import db, jwt
 from auth import auth_bp
 from products import products_bp
 from carts import carts_bp
-from orders import orders_bp
+from orders import orders_bp # Chat.py import -sr
+from chat import chat_bp
 import os
 
+# To ensure that env is loaded - sr
+from dotenv import load_dotenv
+load_dotenv()
 
 
 def create_app():
@@ -25,6 +29,7 @@ def create_app():
     app.register_blueprint(orders_bp, url_prefix="/api")
     app.register_blueprint(carts_bp, url_prefix="/api")
     app.register_blueprint(products_bp, url_prefix="/api")
+    app.register_blueprint(chat_bp, url_prefix="/ai") # Chat.py import -sr
 
     # --- Basic Routes ---
     @app.route("/")

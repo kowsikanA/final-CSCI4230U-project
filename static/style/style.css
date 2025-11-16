@@ -1,0 +1,105 @@
+/* CSS for Chatbox */
+#chat-toggle {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: #111827;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    transition: all ease-in-out 0.2s;
+}
+
+#chat-toggle:hover{
+    scale: 1.3;
+}
+
+#chat-widget {
+    position: fixed;
+    bottom: 80px;
+    right: 16px;
+    width: 320px;
+    max-height: 420px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    display: none;           
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1000;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+#chat-widget.open {
+    display: flex;
+}
+
+.chat-header {
+    background: #111827;
+    color: #ffffff;
+    padding: 0.6rem 0.9rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.chat-body {
+    padding: 0.6rem 0.9rem;
+    flex: 1;
+    overflow-y: auto;
+    background: #f9fafb;
+}
+
+.chat-input-row {
+display: flex;
+gap: 0.4rem;
+padding: 0.5rem 0.9rem;
+border-top: 1px solid #e5e7eb;
+background: #ffffff;
+}
+
+.chat-input-row input {
+    flex: 1;
+    padding: 0.4rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid #d1d5db;
+    font-size: 0.85rem;
+}
+
+.chat-input-row button {
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    border: none;
+    background: #4f46e5;
+    color: #ffffff;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.chat-input-row button:hover {
+    background: #4338ca;
+}
+
+.chat-message {
+    margin-bottom: 0.4rem;
+    padding: 0.4rem 0.6rem;
+    max-width: 85%;
+    font-size: 0.85rem;
+}
+
+.chat-message.user {
+    background: #e5e7eb;
+    margin-left: auto;
+    text-align: right;
+}
+
+.chat-message.bot {
+    background: #4f46e5;
+    color: #ffffff;
+    margin-right: auto;
+}
