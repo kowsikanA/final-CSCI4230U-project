@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>NorthStar Goods</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <h1>NorthStar Goods</h1>
+    
+    
+    <div id="product-list">
+      <!-- <div class="product">
+        <img src="" alt="">
+        <h3>Price</h3>
+      </div> -->
+    </div>
+
+  </body>
+
+  <script>
+      async function fetchProducts(){
+        try{
+          const res = await fetch('/api/products');
+          if (!res.ok){
+            throw new Error(`Response status: ${res.status}`);         
+          }
+          const productList = await res.json();
+          
+          const productListDiv = document.getElementById('product-list');
+          productList.forEach(product => {
+            const productDiv = document.createElement('div');
+            const img = document.createElement('img');
+            const price = document.createElement('h3');
+
+            productDiv.className = 'product';
+
+            img.src = product.image_url;
+            img.alt = product.name;
+            img.className = 'product-image';
+            
+            price.innerHTML = `Price: $${product.price}`
+            price.className = 'product-price'
+
+            productDiv.appendChild(img);
+            productDiv.appendChild(price);
+            
+            productListDiv.appendChild(productDiv)
+
+          });
+
+
+
+        } catch (error){
+          console.error(error.message)
+        }
+      }
+      fetchProducts();
+
+ 
+
+  </script>
+  
+</html>

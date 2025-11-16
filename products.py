@@ -6,9 +6,10 @@ import os
 import stripe
 from decimal import Decimal
 
+
 products_bp = Blueprint("products", __name__, url_prefix="/api")
 
-stripe.api_key =  os.getenv("STRIPE_API_KEY")
+stripe.api_key =  os.getenv("STRIPE_SECRET_KEY")
 
 
 def add_stripe_products(): # helper function

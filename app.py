@@ -1,17 +1,20 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from extensions import db, jwt
 from auth import auth_bp
 from products import products_bp
 from carts import carts_bp
 from orders import orders_bp
+import os
+
+
 
 def create_app():
     app = Flask(__name__)
 
     # --- Flask Config ---
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite3"
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.config["SECRET_KEY"] = "supersecretkey321"
+    app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
     # --- Initialize Extensions ---
     db.init_app(app)
@@ -26,15 +29,15 @@ def create_app():
     # --- Basic Routes ---
     @app.route("/")
     def home():
-        return jsonify(message="Hello, Flask!")
+        return render_template("index.html")
 
-    @app.route("/about")
-    def about():
-        return jsonify(message="This is the About page")
+    # @app.route("/about")
+    # def about():
+    #     return jsonify(message="This is the About page")
 
-    @app.route("/multiply/<int:x>/<int:y>")
-    def multiply(x: int, y: int):
-        return jsonify(result=x * y)
+    # @app.route("/multiply/<int:x>/<int:y>")
+    # def multiply(x: int, y: int):
+    #     return jsonify(result=x * y)
 
     return app
 
