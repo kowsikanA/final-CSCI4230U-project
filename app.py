@@ -1,11 +1,14 @@
 from flask import Flask, jsonify, render_template
 from extensions import db, jwt
+import requests
 from auth import auth_bp
-from products import products_bp
+from products import products_bp, list_products
 from carts import carts_bp
 from orders import orders_bp # Chat.py import -sr
 from chat import chat_bp
+from models import Product
 import os
+import json
 
 # To ensure that env is loaded - sr
 from dotenv import load_dotenv
@@ -50,8 +53,19 @@ def create_app():
 if __name__ == "__main__":
     app = create_app()
 
+   
     with app.app_context():
         db.create_all()
         print("✅ Database tables created")
+
+
+        products = [product.to_dict() for product in Product.query.all()]
+
+        if os.path.exists("campaign.json"):
+            os.remove("campaign.json")
+
+        with open("campaign.json", 'w') as f:
+            json.dump(products, f, indent=4)
+
 
     app.run(debug=True)

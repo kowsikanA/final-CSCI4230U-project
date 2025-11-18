@@ -8,6 +8,11 @@ chat_bp = Blueprint("chat", __name__)
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "gemma3:1b")
 
+campaign_data = []
+if os.path.exists("campaign.json"):
+    with open("campaign.json", "r") as f:
+        campaign_data = json.load(f)
+
 
 @chat_bp.route("/ask", methods=["POST"])
 def generate():
@@ -17,9 +22,13 @@ def generate():
     if not prompt:
         return jsonify({"error": "Missing 'prompt'"}), 400
 
+    full_prompt = f"""Use the json data to answer the user's question : {campaign_data} 
+                User question:
+                {prompt}
+                Answer based on the product data"""
     payload = {
         "model": OLLAMA_MODEL,
-        "prompt": prompt,
+        "prompt": full_prompt,
     }
 
     try:

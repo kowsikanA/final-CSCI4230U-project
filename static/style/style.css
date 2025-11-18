@@ -1,4 +1,66 @@
 /* CSS for Chatbox */
+
+li{
+    font-size: 24px;
+}
+li a{
+    text-decoration: none;
+}
+
+.navbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+}
+
+.search-bar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+input{
+    width: 600px;
+    margin-left: 0px;
+    font-size: 20px;
+    height: 51px;
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 10px 0px 0px 10px;
+    border-right: none;
+}
+
+svg{
+    border: 2px solid black;
+    background-color: white;
+    padding: 12px;
+    border-radius: 0px 10px 10px 0px;
+    border-left: none;
+    cursor: pointer;
+}
+
+.logo{
+    cursor: pointer;
+}
+
+.nav-links{
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links li{
+    display: inline-block;
+    justify-content: space-between;
+    padding: 0 40px;
+}
+
+.nav-links li a{
+    transition: all 0.3s ease 0s;
+}
+
+
 #chat-toggle {
     position: fixed;
     bottom: 16px;
@@ -56,11 +118,11 @@
 }
 
 .chat-input-row {
-display: flex;
-gap: 0.4rem;
-padding: 0.5rem 0.9rem;
-border-top: 1px solid #e5e7eb;
-background: #ffffff;
+    display: flex;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border-top: 1px solid #e5e7eb;
+    background: #ffffff;
 }
 
 .chat-input-row input {
@@ -89,17 +151,21 @@ background: #ffffff;
     margin-bottom: 0.4rem;
     padding: 0.4rem 0.6rem;
     max-width: 85%;
+    width: fit-content;
     font-size: 0.85rem;
 }
 
 .chat-message.user {
-    background: #e5e7eb;
+    background: #c5c6c7;
     margin-left: auto;
-    text-align: right;
+    border-radius: 10px 10px 0px 10px;
+
 }
 
 .chat-message.bot {
     background: #4f46e5;
     color: #ffffff;
     margin-right: auto;
+    border-radius: 10px 10px 10px 0px;
+
 }

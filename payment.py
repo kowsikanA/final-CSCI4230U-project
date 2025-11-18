@@ -6,4 +6,4 @@ import os
 import stripe 
 from decimal import Decimal
 
-stripe.api_key =  os.getenv("STRIPE_API_KEY")
+stripe.api_key = os.getenv("STRIPE_API_KEY")
