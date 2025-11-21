@@ -6,6 +6,7 @@ from products import products_bp, list_products
 from carts import carts_bp
 from orders import orders_bp # Chat.py import -sr
 from chat import chat_bp
+from payment import payment_bp
 from models import Product
 import os
 import json
@@ -33,11 +34,17 @@ def create_app():
     app.register_blueprint(carts_bp, url_prefix="/api")
     app.register_blueprint(products_bp, url_prefix="/api")
     app.register_blueprint(chat_bp, url_prefix="/ai") # Chat.py import -sr
+    app.register_blueprint(payment_bp, url_prefix="/payments")
+
 
     # --- Basic Routes ---
     @app.route("/")
     def home():
         return render_template("index.html")
+    
+    @app.route("/login")
+    def login():
+        return render_template("login.html")
 
     # @app.route("/about")
     # def about():

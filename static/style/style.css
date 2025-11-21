@@ -1,7 +1,18 @@
-/* CSS for Chatbox */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+html, body{
+    background-color: #fefefe;
+}
 
 li{
-    font-size: 24px;
+    font-size: 16px;
 }
 li a{
     text-decoration: none;
@@ -21,23 +32,29 @@ li a{
 }
 
 input{
-    width: 600px;
+    width: 450px;
     margin-left: 0px;
-    font-size: 20px;
-    height: 51px;
-    padding: 20px;
+    font-size: 16px;
+    height: 40px;
+    padding: 10px 15px;
     border: 2px solid black;
     border-radius: 10px 0px 0px 10px;
     border-right: none;
 }
 
-svg{
-    border: 2px solid black;
-    background-color: white;
-    padding: 12px;
-    border-radius: 0px 10px 10px 0px;
-    border-left: none;
+.search-btn{
+
+    width: 40px;
+    height: 40px;
     cursor: pointer;
+    border-left: none; 
+    border-radius: 0px 10px 10px 0px;
+    background-color: lightblue;
+    
+}
+
+i{
+    background:none;
 }
 
 .logo{
@@ -60,6 +77,10 @@ svg{
     transition: all 0.3s ease 0s;
 }
 
+
+
+
+/* CSS for Chatbox */
 
 #chat-toggle {
     position: fixed;

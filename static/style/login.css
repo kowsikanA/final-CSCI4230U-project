@@ -1,0 +1,109 @@
+
+*{
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background: #fefefe;
+}
+#login-section{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.login-container{
+  width: 25%;
+  border: 1px solid rgb(214, 214, 214);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  padding: 50px;
+  box-shadow: 0px 20px 20px 0px rgba(0,0,0,0.19);
+
+}
+
+.inputs{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+
+h2{
+  color: Black;
+  font-size: 24px ;
+
+}
+
+h4{
+  text-align: center;
+  color:rgb(121, 72, 21);
+}
+
+span{
+  text-decoration: underline;
+  color: rgb(137, 137, 239);
+}
+
+input{
+  border-radius: 5px;
+  border: 1px solid rgb(220, 220, 220);
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.login-btn{
+  align-self: center;
+  text-align: center;  
+  background-color: rgb(109, 173, 241);
+  color: white;
+  transition: all ease-in-out 0.2s;
+  padding: 10px 20px;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 10px;
+  border-color: rgb(50, 83, 50);
+  font-weight: 500;
+}
+
+.login-btn:active{
+  background-color: rgb(87, 149, 185);
+}
+
+
+.login-btn:hover{
+  background-color: rgb(142, 189, 236);
+
+}
+
+.login-suc, .login-fail{
+  display: none;
+}
+
+.login-suc{
+  margin-top: 35px;
+
+  background-color: rgb(199, 236, 199);
+  padding: 20px 10%;
+  border: 2px solid rgb(28, 227, 124);
+  border-radius: 10px;
+  font-size: 15px;
+  color:green;
+}
+
+.login-fail{
+  margin-top: 35px;
+  background-color: rgb(236, 199, 199);
+  padding: 20px 10%;
+  border: 2px solid rgb(227, 28, 28);
+  border-radius: 10px;
+  font-size: 15px;
+  color:rgb(255, 0, 0);
+}
