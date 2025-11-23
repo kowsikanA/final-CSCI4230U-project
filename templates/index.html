@@ -45,14 +45,17 @@
 
   <!-- Special offer grid -->
 
-    
-    <div id="product-list">
+    <div class="offers">
+      <h1 style="color: #F8FAFC;font-size: 45px;">Black Friday Offers</h1>
+      <div id="product-list">
       <!-- <div class="product-card">
         <img src="/Product-Images/Apple iPad 10.9 inch.jpg" alt="" style="width: 100%;">
 
       </div> -->
+      </div>
     </div>
-    
+
+
     <!-- Code for chatbox -sr -->
     <div id="chat-widget">
       <div class="chat-header">NorthStar Assistant</div>
@@ -82,8 +85,15 @@
           const productListDiv = document.getElementById('product-list');
           productList.forEach(product => {
             const productDiv = document.createElement('div');
+          
             const img = document.createElement('img');
+            const product_name = document.createElement("p")
+            product_name.className = 'product-name';
+            product_name.innerText = product.name.substring(0,20);
             const price = document.createElement('h3');
+            const cartButton = document.createElement("button");
+            cartButton.className = 'cart-btn';
+            cartButton.innerHTML = 'Add to Cart'
 
             productDiv.className = 'product';
 
@@ -91,13 +101,14 @@
             img.alt = product.name;
             img.className = 'product-image';
             
-            price.innerHTML = `Price: $${product.price}`
+            price.innerHTML = `$${product.price}`
             price.className = 'product-price'
 
             productDiv.appendChild(img);
+            productDiv.appendChild(product_name);
             productDiv.appendChild(price);
-            
-            productListDiv.appendChild(productDiv)
+            productDiv.appendChild(cartButton);
+            productListDiv.appendChild(productDiv);
 
           });
 

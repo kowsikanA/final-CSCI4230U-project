@@ -4,7 +4,8 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
-    
+
+
 }
 
 
@@ -12,6 +13,8 @@ html, body{
     background-color: #eff5f9;
     height: 100vh;
 }
+
+
 
 .logo{
     height: 10rem;
@@ -28,6 +31,7 @@ li a{
     color: white;
     text-decoration: none;
 }
+
 
 .navbar{
     height: 5rem;
@@ -95,14 +99,57 @@ input{
     gap: 25px;
 }
 
+.offers{
+    background-image: linear-gradient(to left, rgb(84, 53, 241), #2BD1F0);
+    padding: 40px 0;
+    width: 100%;
+    text-align: center;
+}
 
 
+#product-list{
+    display: grid;
+    grid-template-columns: repeat(3, 250px);
+    margin-top: 1rem;
+    grid-gap: 10px;
+    padding: 2rem 10rem;
+}
 
+.product-image{
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 15px;
+
+    
+}
 .product{
-    background-color: #F8FAFC;
     border: 1px solid black;
+    text-align: center;
+    background-color: white;
     border-radius: 20px;
-    width: 15%;
+    font-size: 20px;
+    padding: 20px 20px;
+    margin-bottom: 15px;
+
+}
+
+.product-price{
+    font-size: 15px;
+
+    margin: 20px 0;
+
+}
+
+.cart-btn{
+    padding: 5px 10px;
+    background-color: #4F46E5;
+    text-align: center;
+    color: white;
+    font-size: 13px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
 
 }
 
