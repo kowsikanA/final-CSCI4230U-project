@@ -109,7 +109,7 @@ input{
 
 #product-list{
     display: grid;
-    grid-template-columns: repeat(3, 250px);
+    grid-template-columns: repeat(6, auto);
     margin-top: 1rem;
     grid-gap: 10px;
     padding: 2rem 10rem;
@@ -136,7 +136,6 @@ input{
 
 .product-price{
     font-size: 15px;
-
     margin: 20px 0;
 
 }
