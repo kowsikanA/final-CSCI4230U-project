@@ -9,14 +9,14 @@
 body{
   background: #fefefe;
 }
-#login-section{
+#signup-section{
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.login-container{
+.signup-container{
   width: 35%;
   border: 1px solid rgb(214, 214, 214);
   border-radius: 5px;
@@ -46,7 +46,7 @@ h4{
   color:rgb(121, 72, 21);
 }
 
-.signup-link{
+.login-link{
   text-decoration: underline;
   color: rgb(137, 137, 239);
 }
@@ -59,10 +59,11 @@ input{
   margin-bottom: 30px;
 }
 
-.login-btn{
+.signup-btn{
+  width: 50%;
   align-self: center;
   text-align: center;  
-  background-color: rgb(109, 173, 241);
+  background-color: #2BD1F0;
   color: white;
   transition: all ease-in-out 0.2s;
   padding: 10px 20px;
@@ -73,21 +74,21 @@ input{
   font-weight: 500;
 }
 
-.login-btn:active{
+.signup-btn:active{
   background-color: rgb(87, 149, 185);
 }
 
 
-.login-btn:hover{
+.signup-btn:hover{
   background-color: rgb(142, 189, 236);
 
 }
 
-.login-suc, .login-fail{
+.signup-suc, .signup-fail{
   display: none;
 }
 
-.login-suc{
+.signup-suc{
   margin-top: 35px;
 
   background-color: rgb(199, 236, 199);
@@ -98,7 +99,7 @@ input{
   color:green;
 }
 
-.login-fail{
+.signup-fail{
   margin-top: 35px;
   background-color: rgb(236, 199, 199);
   padding: 20px 10%;

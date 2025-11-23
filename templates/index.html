@@ -13,21 +13,44 @@
   </head>
   <body>
     <!-- Navbar -->
-    <div class="navbar">
-      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo" class="logo" height="150px" width="150px">
-      <div class="search-bar">
-        <input type="search" name="product-search" id="product-search" placeholder="Search for products">
-        <button class="search-btn"><i class="fa fa-search"></i></button>
-      
+    <div class="main-navbar">
+      <div class="navbar">
+        <img src="{{ url_for('static', filename='images/logo-2.png') }}" alt="logo" class="logo" >
+        
+        <ul class="nav-links">
+          <div class="search-bar">
+            <form action="">
+              <input type="search" name="product-search" id="product-search" placeholder="Search for products">
+              <button class="search-btn"><i class="fa fa-search"></i></button>
+            </form>
+          </div>
+          <li class="link"><a href="{{ url_for('login') }}">Sign In</a></li>
+          <li class="link"><a href=""><i class="fa fa-shopping-cart cart-icon" aria-hidden="true" style="font-size: 24px;"></i></a></li>
+        </ul>
       </div>
-      <ul class="nav-links">
-        <li class="link"><a href="{{ url_for('login') }}">Sign In</a></li>
-        <li class="link"><a href=""><img src="https://img.icons8.com/?size=100&id=ldYAIOBZuEdB&format=png&color=000000" alt="" width="50px" height="50px"></a></li>
-      </ul>
-    </div>
+
+      <div class="categories">
+        <ul>
+          <li style="font-weight: 500;">Black Friday</li>
+          <li>Electronics</li>
+          <li>Home Appliances</li>
+          <li>Clothes</li>
+          <li>Sports</li>
+          <li>Gaming</li>
+          <li>Toys</li>
+          <li>Groceries</li>
+        </ul>
+      </div>
+  </div>
+
+  <!-- Special offer grid -->
+
     
     <div id="product-list">
-      
+      <!-- <div class="product-card">
+        <img src="/Product-Images/Apple iPad 10.9 inch.jpg" alt="" style="width: 100%;">
+
+      </div> -->
     </div>
     
     <!-- Code for chatbox -sr -->
