@@ -7,3 +7,4 @@ Werkzeug
 stripe 
 python-dotenv
 requests
+pytest
