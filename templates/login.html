@@ -56,8 +56,6 @@
       if (!res.ok){
         document.querySelector(".login-fail").style.display="flex";
         document.querySelector(".login-suc").style.display="none";
-
-        alert(j.error || 'Invalid email or password.')
       }
 
       if (j.access_token){
