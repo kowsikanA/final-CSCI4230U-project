@@ -64,10 +64,11 @@
         localStorage.setItem("access_token", j.access_token);
         document.querySelector(".login-suc").style.display="flex";
         document.querySelector(".login-fail").style.display="none";        
-        window.location.href='/'
+        setTimeout(()=> {         
+            window.location.href='/';}, 2000)
+        }
 
-
-      } 
+      
     }
     catch(err){
       console.log(err);

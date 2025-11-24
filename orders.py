@@ -53,8 +53,8 @@ def create_order_from_cart():
             order_id=order.id,
             product_id=ci.product_id,
             quantity=ci.quantity,
-            price=ci.product.price,        # snapshot current product price
-            payment_status="pending",      # you kept this column
+            price=ci.product.price,       
+            payment_status="pending",      
         )
         db.session.add(oi)
 
@@ -87,7 +87,7 @@ def get_order(order_id: int):
 
 
 # -------------------------------
-# PUT /api/orders/<id>/pay  (mark paid - demo helper)
+# PUT /api/orders/<id>/pay 
 # -------------------------------
 @orders_bp.route("/orders/<int:order_id>/pay", methods=["PUT"])
 @jwt_required()

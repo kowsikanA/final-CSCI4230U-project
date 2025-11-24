@@ -15,14 +15,12 @@ stripe.api_key =  os.getenv("STRIPE_SECRET_KEY")
 def add_stripe_products(): # helper function
     """Sync products from Stripe into the local Product table."""
     if not stripe.api_key:
-        # If key is missing, just skip Stripe sync instead of crashing
-        current_app.logger.warning("STRIPE_SECRET_KEY not configured; skipping Stripe sync.")
+        current_app.logger.warning("STRIPE_SECRET_KEY not configured")
         return
 
     try:
         stripe_products = stripe.Product.list(limit=100, expand=["data.default_price"])
     except Exception as e:
-        # Log but don't kill the request
         current_app.logger.error(f"Stripe error while syncing products: {e}")
         return
 

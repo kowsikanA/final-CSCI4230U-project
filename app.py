@@ -50,17 +50,6 @@ def create_app():
     def signup():
         return render_template("signup.html")
 
-
-
-
-    # @app.route("/about")
-    # def about():
-    #     return jsonify(message="This is the About page")
-
-    # @app.route("/multiply/<int:x>/<int:y>")
-    # def multiply(x: int, y: int):
-    #     return jsonify(result=x * y)
-
     return app
 
 
