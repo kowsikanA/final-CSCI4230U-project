@@ -73,7 +73,10 @@
 
   </body>
 
-  <script>
+  <!-- -----------------------------------------------------------------------------------------  -->
+  <!-- -----------------------------------------------------------------------------------------  -->
+  <!-- KOWSI THIS IS UR OLD CODE -->
+  <!-- <script>
       async function fetchProducts(){
         try{
           const res = await fetch('/api/products');
@@ -119,7 +122,110 @@
         }
       }
       fetchProducts();
-  </script>
+  </script> -->
+  <!-- -----------------------------------------------------------------------------------------  -->
+  <!-- -----------------------------------------------------------------------------------------  -->
+
+  <script>
+  // Fetch products from DummyJSON and render only tech devices
+  async function fetchProducts() {
+    try {
+      // 1) Get ALL products but only the fields we care about
+      const res = await fetch(
+        "https://dummyjson.com/products?limit=0&select=title,price,thumbnail,category");
+
+      if (!res.ok) {
+        throw new Error(`Response status: ${res.status}`);
+      }
+
+      // 2) DummyJSON returns: { products: [...], total, skip, limit }
+      const data = await res.json();
+      let products = data.products || [];
+
+      // 3) Keep only tech-type categories
+      const allowedCategories = [
+        "smartphones",
+        "laptops",
+        "tablets",
+        "mobile-accessories"
+      ];
+
+      products = products.filter((product) =>
+        allowedCategories.includes(product.category)
+      );
+
+      // 4) Get container
+      const productListDiv = document.getElementById("product-list");
+      if (!productListDiv) {
+        console.error("No element with id 'product-list' found in the DOM.");
+        return;
+      }
+
+      productListDiv.innerHTML = "";
+
+      if (products.length === 0) {
+        productListDiv.innerHTML =
+          "<p style='color:white;'>No tech products found.</p>";
+        return;
+      }
+
+      // 5) Render cards
+      products.forEach((product) => {
+        const productDiv = document.createElement("div");
+        productDiv.className = "product";
+
+        const img = document.createElement("img");
+        img.src = product.thumbnail;
+        img.alt = product.title;
+        img.className = "product-image";
+
+        const title = document.createElement("p");
+        title.className = "product-name";
+        title.textContent =
+          product.title.length > 25
+            ? product.title.substring(0, 25) + "..."
+            : product.title;
+
+        const price = document.createElement("h3");
+        price.className = "product-price";
+        price.textContent = `$${product.price}`;
+
+        const category = document.createElement("p");
+        category.className = "product-category";
+        category.textContent = product.category;
+
+        const cartButton = document.createElement("button");
+        cartButton.className = "cart-btn";
+        cartButton.textContent = "Add to Cart";
+
+        productDiv.appendChild(img);
+        productDiv.appendChild(title);
+        productDiv.appendChild(price);
+        productDiv.appendChild(category);
+        productDiv.appendChild(cartButton);
+
+        productListDiv.appendChild(productDiv);
+      });
+    } catch (error) {
+      console.error("Error fetching products:", error);
+
+      const productListDiv = document.getElementById("product-list");
+      if (productListDiv) {
+        productListDiv.innerHTML =
+          "<p style='color:white;'>Sorry, we couldn't load the products right now.</p>";
+      }
+    }
+  }
+
+  // Run on page load
+  fetchProducts();
+</script>
+
+
+
+
+
+
 
  <script>
 
