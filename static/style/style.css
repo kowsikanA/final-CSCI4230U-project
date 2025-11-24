@@ -131,7 +131,7 @@ input{
     font-size: 20px;
     padding: 20px 20px;
     margin-bottom: 15px;
-
+    cursor: pointer;
 }
 
 .product-price{
@@ -262,3 +262,90 @@ input{
     border-radius: 10px 10px 10px 0px;
 
 }
+
+/* Modal */
+/* ----- Product details modal ----- */
+
+.modal {
+  position: fixed;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999; /* above page content, but below chat if needed */
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.7); /* dark overlay */
+}
+
+.modal-content {
+  position: relative;
+  z-index: 1;
+  background: #0f172a; /* slate-ish to match your theme */
+  color: #f9fafb;
+  padding: 24px;
+  border-radius: 12px;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  border: none;
+  background: transparent;
+  color: #e5e7eb;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal-image {
+  max-width: 220px;
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 8px 0;
+}
+
+.modal-category {
+  font-size: 14px;
+  color: #9ca3af;
+  margin-bottom: 4px;
+}
+
+.modal-price {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.modal-description {
+  font-size: 14px;
+  color: #e5e7eb;
+  margin-bottom: 16px;
+}
+
+/* Optional: make .cart-btn look good inside modal if not already styled */
+.cart-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-weight: 500;
+}
+

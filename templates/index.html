@@ -55,6 +55,26 @@
       </div>
     </div>
 
+        <!-- Product details modal -->
+    <div id="product-modal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <button class="modal-close" id="modal-close">&times;</button>
+
+        <img id="modal-image" class="modal-image" src="" alt="Product image" />
+
+        <h2 id="modal-title" class="modal-title"></h2>
+        <p id="modal-category" class="modal-category"></p>
+        <p id="modal-price" class="modal-price"></p>
+        <p id="modal-description" class="modal-description"></p>
+
+        <button id="modal-add-to-cart" class="cart-btn">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+
+
 
     <!-- Code for chatbox -sr -->
     <div id="chat-widget">
@@ -127,12 +147,15 @@
   <!-- -----------------------------------------------------------------------------------------  -->
 
   <script>
+  let selectedProduct = null;
+
   // Fetch products from DummyJSON and render only tech devices
   async function fetchProducts() {
     try {
       // 1) Get ALL products but only the fields we care about
       const res = await fetch(
-        "https://dummyjson.com/products?limit=0&select=title,price,thumbnail,category");
+        "https://dummyjson.com/products?limit=0&select=title,price,thumbnail,category,description"
+      );
 
       if (!res.ok) {
         throw new Error(`Response status: ${res.status}`);
@@ -169,7 +192,7 @@
         return;
       }
 
-      // 5) Render cards
+      // 5) Render cards (no direct Add to Cart here; click opens modal)
       products.forEach((product) => {
         const productDiv = document.createElement("div");
         productDiv.className = "product";
@@ -194,15 +217,15 @@
         category.className = "product-category";
         category.textContent = product.category;
 
-        const cartButton = document.createElement("button");
-        cartButton.className = "cart-btn";
-        cartButton.textContent = "Add to Cart";
+        // Entire card clickable → open modal
+        productDiv.addEventListener("click", () => {
+          openProductModal(product);
+        });
 
         productDiv.appendChild(img);
         productDiv.appendChild(title);
         productDiv.appendChild(price);
-        productDiv.appendChild(category);
-        productDiv.appendChild(cartButton);
+        // productDiv.appendChild(category);
 
         productListDiv.appendChild(productDiv);
       });
@@ -217,9 +240,58 @@
     }
   }
 
+  // ----- Modal logic -----
+  const modal = document.getElementById("product-modal");
+  const modalImage = document.getElementById("modal-image");
+  const modalTitle = document.getElementById("modal-title");
+  const modalCategory = document.getElementById("modal-category");
+  const modalPrice = document.getElementById("modal-price");
+  const modalDescription = document.getElementById("modal-description");
+  const modalCloseBtn = document.getElementById("modal-close");
+  const modalAddToCartBtn = document.getElementById("modal-add-to-cart");
+
+  function openProductModal(product) {
+    selectedProduct = product;
+
+    modalImage.src = product.thumbnail;
+    modalImage.alt = product.title;
+    modalTitle.textContent = product.title;
+    modalCategory.textContent = `Category: ${product.category}`;
+    modalPrice.textContent = `Price: $${product.price}`;
+    modalDescription.textContent = product.description || "No description available.";
+
+    modal.classList.remove("hidden");
+  }
+
+  function closeProductModal() {
+    modal.classList.add("hidden");
+    selectedProduct = null;
+  }
+
+  // Close when clicking X
+  modalCloseBtn.addEventListener("click", closeProductModal);
+
+  // Close when clicking outside the card (on the backdrop)
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal || e.target.classList.contains("modal-backdrop")) {
+      closeProductModal();
+    }
+  });
+
+  // Add to cart from modal (currently mock — front-end only)
+  modalAddToCartBtn.addEventListener("click", () => {
+    if (!selectedProduct) return;
+
+    // TODO: later we can POST to your Flask cart endpoint here.
+    console.log("Add to cart:", selectedProduct);
+    alert(`Added "${selectedProduct.title}" to cart (mock).`);
+    closeProductModal();
+  });
+
   // Run on page load
   fetchProducts();
 </script>
+
 
 
 
