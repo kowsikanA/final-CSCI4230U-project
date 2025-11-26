@@ -6,69 +6,110 @@ from models import Product, User
 import os
 import stripe
 from decimal import Decimal
+import requests
 
 
 products_bp = Blueprint("products", __name__, url_prefix="/api")
 
-stripe.api_key =  os.getenv("STRIPE_SECRET_KEY")
 
 # Helper function 
-def add_stripe_products(): 
+# def add_stripe_products(): 
 
-    # If Stripe is not configured, log a warning and exit early
-    if not stripe.api_key:
-        current_app.logger.warning("STRIPE_SECRET_KEY not configured")
-        return
+#     # If Stripe is not configured, log a warning and exit early
+#     if not stripe.api_key:
+#         current_app.logger.warning("STRIPE_SECRET_KEY not configured")
+#         return
 
-    try:
-        # Fetch up to 100 products from Stripe, including their default_price info
-        stripe_products = stripe.Product.list(limit=100, expand=["data.default_price"])
-    except Exception as e:
-        # Log any Stripe API error and stop syncing
-        current_app.logger.error(f"Stripe error while syncing products: {e}")
-        return
+#     try:
+#         # Fetch up to 100 products from Stripe, including their default_price info
+#         stripe_products = stripe.Product.list(limit=100, expand=["data.default_price"])
+#     except Exception as e:
+#         # Log any Stripe API error and stop syncing
+#         current_app.logger.error(f"Stripe error while syncing products: {e}")
+#         return
 
-    # Iterate over all Stripe products
-    for sp in stripe_products.auto_paging_iter():
-        default_price = sp.default_price
+#     # Iterate over all Stripe products
+#     for sp in stripe_products.auto_paging_iter():
+#         default_price = sp.default_price
 
-        # Convert price from cents (Stripe) to Decimal dollars with 2 decimals
-        if default_price and default_price.unit_amount is not None:
-            price = (Decimal(default_price.unit_amount) / Decimal(100)).quantize(Decimal("0.01"))
-        else:
-            price = Decimal("0.00")
+#         # Convert price from cents (Stripe) to Decimal dollars with 2 decimals
+#         if default_price and default_price.unit_amount is not None:
+#             price = (Decimal(default_price.unit_amount) / Decimal(100)).quantize(Decimal("0.01"))
+#         else:
+#             price = Decimal("0.00")
 
-        # Check if this product already exists locally 
-        exists = Product.query.filter_by(name=sp.name).first()
+#         # Check if this product already exists locally 
+#         exists = Product.query.filter_by(name=sp.name).first()
         
-        if exists:
-            # Update existing product fields from Stripe data
-            exists.price = price
-            exists.available = sp.active
-            exists.image_url = sp.images[0] if sp.images else None
-            exists.description = sp.description
-        else:
-            # Create a new local Product entry based on Stripe product data
-            p = Product(
-                name=sp.name,
-                price=price,
-                image_url=sp.images[0] if sp.images else None,
-                inventory=0,
-                available=sp.active,
-                description=sp.description,
-            )
-            db.session.add(p)
+#         if exists:
+#             # Update existing product fields from Stripe data
+#             exists.price = price
+#             exists.available = sp.active
+#             exists.image_url = sp.images[0] if sp.images else None
+#             exists.description = sp.description
+#         else:
+#             # Create a new local Product entry based on Stripe product data
+#             p = Product(
+#                 name=sp.name,
+#                 price=price,
+#                 image_url=sp.images[0] if sp.images else None,
+#                 inventory=0,
+#                 available=sp.active,
+#                 description=sp.description,
+#             )
+#             db.session.add(p)
 
-    # Save all new/updated products to the database
+#     # Save all new/updated products to the database
+#     db.session.commit()
+
+
+def fetchApiProducts():
+    try:
+        res = requests.get("https://dummyjson.com/products?limit=0")
+        res.raise_for_status()
+        data = res.json()
+    except Exception as e:
+        print("Error fetching DummyJSON products: ", e)
+        return
+    
+    products = data.get("products", [])
+
+    for p in products:
+        name = p.get("title")
+        price = p.get("price", 0)
+        image_url = p.get("thumbnail", None)
+        description = p.get("description", "")
+        category = p.get("category", "")
+        stock = p.get("stock", 0)
+
+        exists = Product.query.filter_by(name=name).first()
+        if exists:
+            # Update existing product fields from DummyJSON products data
+            exists.price = price
+            exists.image_url = image_url
+            exists.description = description
+            exists.available = True
+            exists.inventory = stock
+        else:
+            # Create a new local Product entry based on DummyJSON products data
+            new_product = Product(
+                name=name,
+                price=price,
+                image_url=image_url,
+                description=description,
+                available=True,
+                inventory=stock
+            )
+            db.session.add(new_product)
     db.session.commit()
+
 
 
 
 # GET /api/products  (list products)
 @products_bp.route("/products", methods=["GET"])
 def list_products():
-    add_stripe_products()
-
+    fetchApiProducts()
     # Load all products from the database
     products = Product.query.all()
 
