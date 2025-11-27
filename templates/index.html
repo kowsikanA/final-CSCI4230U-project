@@ -25,7 +25,7 @@
             </form>
           </div>
           <li class="link"><a href="{{ url_for('login') }}">Sign In</a></li>
-          <li class="link"><a href=""><i class="fa fa-shopping-cart cart-icon" aria-hidden="true" style="font-size: 24px;"></i></a></li>
+          <li class="link"><a href="{{ url_for('carts') }}"><i class="fa fa-shopping-cart cart-icon" aria-hidden="true" style="font-size: 24px;"></i></a></li>
         </ul>
       </div>
 
@@ -278,14 +278,49 @@
     }
   });
 
-  // Add to cart from modal (currently mock — front-end only)
-  modalAddToCartBtn.addEventListener("click", () => {
+  
+  modalAddToCartBtn.addEventListener("click", async() => {
     if (!selectedProduct) return;
 
+    const token = localStorage.getItem("access_token");
+    if (!token){
+      alert("please Login First");
+      setTimeout(()=> {         
+            window.location.href='/login';}, 2000);
+      return;
+    }
+
+    try{
+      const res = await fetch('/api/cart', {
+        method:"POST",
+        headers:{
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }, 
+        body: JSON.stringify({
+          product_id: selectedProduct.id,
+          quantity: 1,
+        })      
+      });
+      const data = await res.json();
+
+      if(!res.ok){
+        alert(data.error || "Could not add to cart.");
+        return;
+      }
+
+      alert(`Added "${selectedProduct.title}" to cart (mock).`);
+      closeProductModal();
+
+    } catch (err){
+      console.error(err);
+      alert("Network error. Please try again.");
+    }
+
     // TODO: later we can POST to your Flask cart endpoint here.
-    console.log("Add to cart:", selectedProduct);
-    alert(`Added "${selectedProduct.title}" to cart (mock).`);
-    closeProductModal();
+    // console.log("Add to cart:", selectedProduct);
+    // alert(`Added "${selectedProduct.title}" to cart (mock).`);
+    // closeProductModal();
   });
 
   // Run on page load

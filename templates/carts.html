@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/carts.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <!-- Navbar -->
+  <div class="main-navbar">
+    <div class="navbar">
+      <img src="{{ url_for('static', filename='images/logo-2.png') }}" alt="logo" class="logo">
+
+      <ul class="nav-links">
+        <div class="search-bar">
+          <form action="">
+            <input type="search" name="product-search" id="product-search" placeholder="Search for products">
+            <button class="search-btn"><i class="fa fa-search"></i></button>
+          </form>
+        </div>
+        <li class="link"><a href="{{ url_for('login') }}">Sign In</a></li>
+        <li class="link"><a href=""><i class="fa fa-shopping-cart cart-icon" aria-hidden="true"
+              style="font-size: 24px;"></i></a></li>
+      </ul>
+    </div>
+
+    <div class="categories">
+      <ul>
+        <li style="font-weight: 500;">Black Friday</li>
+        <li>Electronics</li>
+        <li>Home Appliances</li>
+        <li>Clothes</li>
+        <li>Sports</li>
+        <li>Gaming</li>
+        <li>Toys</li>
+        <li>Groceries</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="carts">
+    <table class="carts-table">
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Cost</th>
+        <th>Total Cost</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+
+      </tr>
+    </table>
+
+    
+  </div>
+
+
+  <div id="chat-widget">
+    <div class="chat-header">NorthStar Assistant</div>
+    <div class="chat-body" id="chat-body">
+      <div class="chat-message bot">
+        Hi! 👋. Have any questions about the products we sell, go ahead and ask us some questions.
+      </div>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" id="chat-input" placeholder="What is the latest airpod generation?" autocomplete="off" />
+      <button id="chat-send">Send</button>
+    </div>
+  </div>
+  <button id="chat-toggle" aria-label="Open chat">💬</button>
+
+</body>
+
+<script>
+
+  // ----- Chat widget logic -----
+  const chatWidget = document.getElementById("chat-widget");
+  const chatToggle = document.getElementById("chat-toggle");
+  const chatBody = document.getElementById("chat-body");
+  const chatInput = document.getElementById("chat-input");
+  const chatSend = document.getElementById("chat-send");
+
+  function appendMessage(role, text) {
+    const msg = document.createElement("div");
+    msg.className = "chat-message " + role;
+    msg.textContent = text;
+    chatBody.appendChild(msg);
+    chatBody.scrollTop = chatBody.scrollHeight;
+    return msg;
+  }
+
+  async function sendChat() {
+    const text = (chatInput.value || "").trim();
+    if (!text) return;
+
+    appendMessage("user", text);
+    chatInput.value = "";
+
+    const thinkingEl = appendMessage("bot", "Thinking...");
+
+    try {
+      const resp = await fetch("/ai/ask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt: text }),
+      });
+
+      if (!resp.ok) {
+        thinkingEl.textContent = "Error: " + resp.status;
+        return;
+      }
+
+      const data = await resp.json();
+      thinkingEl.textContent = data.output || "(No response from model.)";
+    } catch (err) {
+      console.error(err);
+      thinkingEl.textContent = "Network error. Please try again.";
+    }
+  }
+
+  // Toggle open/close when clicking the bubble
+  chatToggle.addEventListener("click", () => {
+    chatWidget.classList.toggle("open");
+  });
+
+  // Send on button click
+  chatSend.addEventListener("click", sendChat);
+
+  // Send on Enter key (Shift+Enter = newline ignored since it's a single-line input)
+  chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendChat();
+    }
+  });
+</script>
+
+<script>
+  // -----------------------------
+  // Load CART ITEMS into the table (DummyJSON version)
+  // -----------------------------
+
+  async function loadCart() {
+    const token = localStorage.getItem("access_token");
+
+    if (!token) {
+      console.log("No token found → user not logged in.");
+      return;
+    }
+
+    try {
+      const resp = await fetch("/api/cart", {
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      });
+
+      if (!resp.ok) {
+        console.error("Failed to load cart", resp.status);
+        return;
+      }
+
+      const cartData = await resp.json();
+      console.log("Cart Data:", cartData);
+
+      const table = document.querySelector(".carts-table");
+      table.querySelectorAll("tr:not(:first-child)").forEach(row => row.remove());
+
+      for (const item of cartData) {
+        
+        // Fetch product details from DummyJSON
+        const productResp = await fetch(`https://dummyjson.com/products/${item.product_id}`);
+        const product = await productResp.json();
+        
+        const productImage = product.thumbnail;
+        const productPrice = product.price;
+        const totalCost = (productPrice * item.quantity).toFixed(2);
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td><img src="${productImage}" alt="Product Image" style="width:50px;height:50px;"></td>
+          <td>${item.quantity}</td>
+          <td>$${totalCost}</td>
+          <td>$${totalCost * item.quantity}</td>
+
+        `;
+
+        table.appendChild(row);
+      }
+
+    } catch (err) {
+      console.error("Error loading cart:", err);
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", loadCart);
+</script>
+
+
+
+</html>

@@ -54,6 +54,11 @@ def create_app():
     def signup():
         return render_template("signup.html")
 
+    # Endpoint for carts page 
+    @app.route("/carts")
+    def carts():
+        return render_template("carts.html")
+
     return app
 
 

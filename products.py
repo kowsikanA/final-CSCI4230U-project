@@ -75,6 +75,7 @@ def fetchApiProducts():
     products = data.get("products", [])
 
     for p in products:
+        
         name = p.get("title")
         price = p.get("price", 0)
         image_url = p.get("thumbnail", None)

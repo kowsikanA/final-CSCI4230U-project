@@ -52,14 +52,15 @@
           password: password
         })
       });
-      const j = await res.json();
+      const data = await res.json();
       if (!res.ok){
         document.querySelector(".login-fail").style.display="flex";
         document.querySelector(".login-suc").style.display="none";
       }
 
-      if (j.access_token){
-        localStorage.setItem("access_token", j.access_token);
+      if (data.access_token){
+        localStorage.setItem("access_token", data.access_token);
+        console.log(data.access_token);
         document.querySelector(".login-suc").style.display="flex";
         document.querySelector(".login-fail").style.display="none";        
         setTimeout(()=> {         
