@@ -53,10 +53,45 @@ def add_to_cart():
     if quantity <= 0:
         return jsonify({"error", "Invalid quantity"}) # Handles negative value
 
-    # If product does not exisit in database throws error 
-    product = Product.query.get(product_id)
-    if not product or not product.available:
-        return jsonify({"error": "product not found"}), 404
+        # Try to find the product in the local database
+    # Make sure product_id is an int
+    try:
+        product_id_int = int(product_id)
+    except (TypeError, ValueError):
+        return jsonify({"error": "invalid product_id"}), 400
+
+    product = Product.query.get(product_id_int)
+
+    # If product not found, create it from the data sent by the frontend (DummyJSON product)
+    if not product:
+        name = data.get("name")
+        price = data.get("price")
+        image_url = data.get("image_url")
+        description = data.get("description", "")
+
+        if not name or price is None:
+            return jsonify({"error": "product not found"}), 404
+
+        try:
+            price = float(price)
+        except (TypeError, ValueError):
+            return jsonify({"error": "invalid price"}), 400
+
+        product = Product(
+            id=product_id_int,       # IMPORTANT: align DB id with DummyJSON id
+            name=name,
+            price=price,
+            image_url=image_url,
+            description=description,
+            available=True,
+            inventory=0,            # or some default stock number
+        )
+        db.session.add(product)
+        db.session.flush()  # ensure product.id is assigned
+
+    # If product exists but is marked unavailable
+    if not product.available:
+        return jsonify({"error": "product not available"}), 400
 
     # Gets current user email using jwt
     current_username = get_jwt_identity()

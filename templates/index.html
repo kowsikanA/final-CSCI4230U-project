@@ -298,9 +298,13 @@
           "Authorization": `Bearer ${token}`
         }, 
         body: JSON.stringify({
-          product_id: selectedProduct.id,
+          product_id: selectedProduct.id,            
+          name: selectedProduct.title,              
+          price: selectedProduct.price,             
+          image_url: selectedProduct.thumbnail,     
+          description: selectedProduct.description, 
           quantity: 1,
-        })      
+        })     
       });
       const data = await res.json();
 
