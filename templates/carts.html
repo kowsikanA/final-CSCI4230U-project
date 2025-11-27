@@ -26,7 +26,7 @@
             <button class="search-btn"><i class="fa fa-search"></i></button>
           </form>
         </div>
-        <li class="link"><a href="{{ url_for('login') }}">Sign In</a></li>
+        <li class="link"><a href="{{ url_for('login') }}" id="auth-link">Sign In</a></li>
         <li class="link"><a href=""><i class="fa fa-shopping-cart cart-icon" aria-hidden="true"
               style="font-size: 24px;"></i></a></li>
       </ul>
@@ -89,6 +89,59 @@
   <button id="chat-toggle" aria-label="Open chat">💬</button>
 
 </body>
+
+<!-- Login/Logout Checker -->
+<script>
+    // Login/logout checker and helper
+  (function () {
+  // Only run this once per browser session
+  const FLAG_KEY = "ns_initial_logout_done";
+
+  if (!sessionStorage.getItem(FLAG_KEY)) {
+    // Clear any old auth token from previous sessions
+    localStorage.removeItem("access_token");
+    // Mark that we've done the initial logout
+    sessionStorage.setItem(FLAG_KEY, "1");
+  }
+})();
+  function handleLogout(event) {
+    event.preventDefault();
+
+    // Clear the token (this is what "logs out" a JWT-based app)
+    localStorage.removeItem("access_token");
+
+    // Optional: clear any other auth-related stuff here (e.g. username)
+    // localStorage.removeItem("user_email");
+
+    // Simple feedback (use your notification helper if you have one)
+    // showNotification("You have been signed out.", "success");
+
+    // Redirect to login page (or home page if you prefer)
+    window.location.href = "{{ url_for('login') }}";
+  }
+
+  function updateAuthLink() {
+    const authLink = document.getElementById("auth-link");
+    if (!authLink) return;
+
+    const token = localStorage.getItem("access_token");
+
+    if (token) {
+      // User is "logged in" (token exists)
+      authLink.textContent = "Sign Out";
+      authLink.href = "#";          // we handle click ourselves
+      authLink.onclick = handleLogout;
+    } else {
+      // No token → treat as logged out
+      authLink.textContent = "Sign In";
+      authLink.href = "{{ url_for('login') }}";
+      authLink.onclick = null;
+    }
+  }
+
+  // Run once when the page loads
+  document.addEventListener("DOMContentLoaded", updateAuthLink);
+</script>
 
 <script>
 

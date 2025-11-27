@@ -24,7 +24,7 @@
               <button class="search-btn"><i class="fa fa-search"></i></button>
             </form>
           </div>
-          <li class="link"><a href="{{ url_for('login') }}">Sign In</a></li>
+          <li class="link"><a href="{{ url_for('login') }}" id="auth-link">Sign In</a></li>
           <li class="link"><a href="{{ url_for('carts') }}"><i class="fa fa-shopping-cart cart-icon" aria-hidden="true" style="font-size: 24px;"></i></a></li>
         </ul>
       </div>
@@ -91,62 +91,68 @@
     </div>
     <button id="chat-toggle" aria-label="Open chat">💬</button>
 
+    <div id="notification" class="notification"></div>
+
   </body>
 
-  <!-- -----------------------------------------------------------------------------------------  -->
-  <!-- -----------------------------------------------------------------------------------------  -->
-  <!-- KOWSI THIS IS UR OLD CODE -->
-  <!-- <script>
-      async function fetchProducts(){
-        try{
-          const res = await fetch('/api/products');
-          if (!res.ok){
-            throw new Error(`Response status: ${res.status}`);         
-          }
-          const productList = await res.json();
-          
-          const productListDiv = document.getElementById('product-list');
-          productList.forEach(product => {
-            const productDiv = document.createElement('div');
-          
-            const img = document.createElement('img');
-            const product_name = document.createElement("p")
-            product_name.className = 'product-name';
-            product_name.innerText = product.name.substring(0,20);
-            const price = document.createElement('h3');
-            const cartButton = document.createElement("button");
-            cartButton.className = 'cart-btn';
-            cartButton.innerHTML = 'Add to Cart'
+  
+<script>
+  // Login/logout checker and helper
+  (function () {
+  // Only run this once per browser session
+  const FLAG_KEY = "ns_initial_logout_done";
 
-            productDiv.className = 'product';
+  if (!sessionStorage.getItem(FLAG_KEY)) {
+    // Clear any old auth token from previous sessions
+    localStorage.removeItem("access_token");
+    // Mark that we've done the initial logout
+    sessionStorage.setItem(FLAG_KEY, "1");
+  }
+})();
 
-            img.src = product.image_url;
-            img.alt = product.name;
-            img.className = 'product-image';
-            
-            price.innerHTML = `$${product.price}`
-            price.className = 'product-price'
+  function handleLogout(event) {
+    event.preventDefault();
 
-            productDiv.appendChild(img);
-            productDiv.appendChild(product_name);
-            productDiv.appendChild(price);
-            productDiv.appendChild(cartButton);
-            productListDiv.appendChild(productDiv);
+    // Clear the token (this is what "logs out" a JWT-based app)
+    localStorage.removeItem("access_token");
 
-          });
+    // Optional: clear any other auth-related stuff here (e.g. username)
+    // localStorage.removeItem("user_email");
 
+    // Simple feedback (use your notification helper if you have one)
+    // showNotification("You have been signed out.", "success");
 
+    // Redirect to login page (or home page if you prefer)
+    window.location.href = "{{ url_for('login') }}";
+  }
 
-        } catch (error){
-          console.error(error.message)
-        }
-      }
-      fetchProducts();
-  </script> -->
-  <!-- -----------------------------------------------------------------------------------------  -->
-  <!-- -----------------------------------------------------------------------------------------  -->
+  function updateAuthLink() {
+    const authLink = document.getElementById("auth-link");
+    if (!authLink) return;
+
+    const token = localStorage.getItem("access_token");
+
+    if (token) {
+      // User is "logged in" (token exists)
+      authLink.textContent = "Sign Out";
+      authLink.href = "#";          // we handle click ourselves
+      authLink.onclick = handleLogout;
+    } else {
+      // No token → treat as logged out
+      authLink.textContent = "Sign In";
+      authLink.href = "{{ url_for('login') }}";
+      authLink.onclick = null;
+    }
+  }
+
+  // Run once when the page loads
+  document.addEventListener("DOMContentLoaded", updateAuthLink);
+</script>
+
+  
 
   <script>
+  // ----- logic -----
   let selectedProduct = null;
 
   // Fetch products from DummyJSON and render only tech devices
@@ -237,6 +243,7 @@
         productListDiv.innerHTML =
           "<p style='color:white;'>Sorry, we couldn't load the products right now.</p>";
       }
+      showNotification("We couldn't load products. Please refresh the page.", "error");
     }
   }
 
@@ -284,7 +291,7 @@
 
     const token = localStorage.getItem("access_token");
     if (!token){
-      alert("please Login First");
+      showNotification("Please sign in before adding items to your cart.", "error");
       setTimeout(()=> {         
             window.location.href='/login';}, 2000);
       return;
@@ -309,16 +316,17 @@
       const data = await res.json();
 
       if(!res.ok){
-        alert(data.error || "Could not add to cart.");
+        const message = data.error || "Could not add this product to your cart.";
+        showNotification(message, "error");
         return;
       }
 
-      alert(`Added "${selectedProduct.title}" to cart (mock).`);
+      showNotification(`Added "${selectedProduct.title}" to your cart.`, "success"); 
       closeProductModal();
 
     } catch (err){
       console.error(err);
-      alert("Network error. Please try again.");
+      showNotification("We ran into a network error. Please try again in a moment.", "error");
     }
 
     // TODO: later we can POST to your Flask cart endpoint here.
@@ -401,6 +409,42 @@
       e.preventDefault();
       sendChat();
     }
+  });
+</script>
+
+
+<script>
+  // ----- Top notification helper -----
+  const notificationEl = document.getElementById("notification");
+  let notificationTimeout;
+
+  function showNotification(message, type = "success", duration = 3000) {
+    if (!notificationEl) return;
+
+    // Reset classes
+    notificationEl.className = "notification";
+    notificationEl.textContent = message;
+
+    if (type === "success") {
+      notificationEl.classList.add("notification-success");
+    } else if (type === "error") {
+      notificationEl.classList.add("notification-error");
+    }
+
+    notificationEl.classList.add("show");
+
+    // Auto-hide after duration
+    if (notificationTimeout) {
+      clearTimeout(notificationTimeout);
+    }
+    notificationTimeout = setTimeout(() => {
+      notificationEl.classList.remove("show");
+    }, duration);
+  }
+
+  // Optional: allow user to click to dismiss immediately
+  notificationEl?.addEventListener("click", () => {
+    notificationEl.classList.remove("show");
   });
 </script>
   
