@@ -45,6 +45,24 @@ html, body{
   gap: 10px;
 }
 
+.title {
+  position: relative;      /* allows us to absolutely position the icon */
+  text-align: center;      /* center the Login text */
+  padding: 16px 0;         /* optional: some vertical spacing */
+}
+
+.title h2 {
+  margin: 0;               /* remove default margins so centering is clean */
+}
+
+.home-icon {
+  position: absolute;
+  left: 16px;              /* distance from the left edge of the card */
+  top: 50%;
+  transform: translateY(-50%); /* vertically center the icon in the title area */
+}
+
+
 h2{
   color: Black;
   font-size: 24px ;
