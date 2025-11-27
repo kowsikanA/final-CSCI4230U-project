@@ -58,6 +58,10 @@ def create_app():
     @app.route("/carts")
     def carts():
         return render_template("carts.html")
+    
+    @app.route("/forgot-password")
+    def forgot_password_page():
+        return render_template("forgot_password.html")
 
     return app
 

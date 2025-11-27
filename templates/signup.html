@@ -29,6 +29,18 @@
 
         <label for="password">New Password</label>
         <input type="password" name="password" id="password" required>
+
+        
+        <label for="security_question">Security Question</label>
+        <select id="security_question" name="security_question">
+          <option value="pet">What is the name of your first pet?</option>
+          <option value="school">What was the name of your elementary school?</option>
+          <option value="city">In what city were you born?</option>
+        </select>
+
+        <label for="security_answer">Answer</label>
+        <input type="text" id="security_answer" name="security_answer" required>
+
       </form>
       
       <button class="signup-btn" onclick="signUp()">Create account</button>
@@ -41,45 +53,46 @@
 
 </body>
 
+ <script>
+  async function signUp() {
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const password = document.getElementById("password").value;
 
-<script>
-   
-    async function signUp() {
-      const email = document.getElementById("email").value
-      const phone = document.getElementById("phone").value
-      const password = document.getElementById("password").value
-      
-      try {
-        const res = await fetch('/auth/register',{
-          method: "POST",
-          headers:{
-            "Content-Type": "application/json" 
-          },
-          body: JSON.stringify({
-            email: email,
-            phone_number: phone || null,
-            password: password
-          })
-        });
+    // NEW: read security question & answer
+    const securityQuestion = document.getElementById("security_question").value;
+    const securityAnswer = document.getElementById("security_answer").value;
 
-        if (res.ok){
-          document.querySelector(".signup-suc").style.display="flex";
-          document.querySelector(".signup-fail").style.display="none";
-          setTimeout(()=> {         
-            window.location.href='/login';}, 2000)
-            }
-        else{
-          document.querySelector(".signup-fail").style.display="flex";
-          document.querySelector(".signup-suc").style.display="none";
+    try {
+      const res = await fetch('/auth/register', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email,
+          phone_number: phone || null,
+          password: password,
+          security_question: securityQuestion,  // NEW
+          security_answer: securityAnswer       // NEW
+        })
+      });
 
-        }
-      } catch (error) {
-        console.log(err);
-        alert("Network Error.")
+      if (res.ok) {
+        document.querySelector(".signup-suc").style.display = "flex";
+        document.querySelector(".signup-fail").style.display = "none";
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 2000);
+      } else {
+        document.querySelector(".signup-fail").style.display = "flex";
+        document.querySelector(".signup-suc").style.display = "none";
       }
+    } catch (error) {
+      console.log(error);
+      alert("Network Error.");
     }
-
-
+  }
 </script>
 
 </html>

@@ -13,6 +13,8 @@ class User(db.Model):
   # Basic user info
   email = db.Column(db.String(120), unique=True, nullable=False)
   phone_number = db.Column(db.String(20), unique=True, nullable=True) # for phone number
+  security_question = db.Column(db.String(255), nullable=True)
+  security_answer_hash = db.Column(db.String(255), nullable=True)
   
   # Hashed password storage
   password_hash = db.Column(db.String(50), nullable=False)
@@ -32,6 +34,17 @@ class User(db.Model):
   # Verify a password against the stored hash
   def check_password(self, password):
     return check_password_hash(self.password_hash, password)
+  
+  def set_security_answer(self, answer: str):
+        # normalize to be case-insensitive
+        normalized = answer.strip().lower()
+        self.security_answer_hash = generate_password_hash(normalized)
+
+  def check_security_answer(self, answer: str) -> bool:
+      if not self.security_answer_hash:
+          return False
+      normalized = answer.strip().lower()
+      return check_password_hash(self.security_answer_hash, normalized)
  
   # Convert user info into a dictionary
   def to_dict(self):
