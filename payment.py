@@ -80,8 +80,11 @@ def create_checkout_session():
             line_items=line_items,
             mode="payment",
             # On success or cancel, Stripe will redirect back to our frontend
-            success_url=f"http://localhost:5000/?payment=success&order_id={order.id}",
-            cancel_url=f"http://localhost:5000/?payment=cancel&order_id={order.id}",
+            # success_url=f"http://localhost:5000/?payment=success&order_id={order.id}",
+            # cancel_url=f"http://localhost:5000/?payment=cancel&order_id={order.id}",
+            # KOWSI ADDED THIS FOR THE CONFRIMATON PAGE
+            success_url=f"http://localhost:5000/order/confirmed?order_id={order.id}",
+            cancel_url=f"http://localhost:5000/order/failed?order_id={order.id}",
             metadata={
                 "order_id": str(order.id),
                 "user_id": str(user.id),

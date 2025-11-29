@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Order Confirmed</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+  </head>
+  <body>
+    <div class="page-container">
+      <h1>Thank you! 🎉</h1>
+      <p>Your payment was successful.</p>
+
+      {% if order_id %}
+        <p><strong>Order ID:</strong> {{ order_id }}</p>
+      {% endif %}
+
+      <p>Your order has been confirmed. You can now return to the home page.</p>
+
+      <!-- Change 'home' or 'main.index' depending on your actual endpoint name -->
+      <a href="{{ url_for('home') }}" class="btn-primary">Go to Home</a>
+      <!-- or: url_for('main.index') -->
+    </div>
+  </body>
+</html>

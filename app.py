@@ -1,5 +1,5 @@
 # Imports 
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 from extensions import db, jwt
 import requests
 from auth import auth_bp
@@ -66,6 +66,17 @@ def create_app():
     @app.route("/checkout")
     def checkout():
         return render_template("checkout.html")
+    
+    @app.route("/order/confirmed")
+    def order_confirmed():
+        order_id = request.args.get("order_id")
+
+        return render_template("order_confirmed.html", order_id=order_id)
+
+    @app.route("/order/failed")
+    def order_failed():
+        order_id = request.args.get("order_id")
+        return render_template("order_failed.html", order_id=order_id)
 
 
     return app
