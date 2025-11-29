@@ -62,6 +62,11 @@ def create_app():
     @app.route("/forgot-password")
     def forgot_password_page():
         return render_template("forgot_password.html")
+    
+    @app.route("/checkout")
+    def checkout():
+        return render_template("checkout.html")
+
 
     return app
 

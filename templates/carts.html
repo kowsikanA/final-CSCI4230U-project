@@ -17,7 +17,8 @@
   <!-- Navbar -->
   <div class="main-navbar">
     <div class="navbar">
-      <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo-2.png') }}" alt="logo" class="logo"></a>
+      <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo-2.png') }}" alt="logo"
+          class="logo"></a>
 
       <ul class="nav-links">
         <div class="search-bar">
@@ -69,9 +70,15 @@
 
       </tr>
     </table>
-
     
   </div>
+
+    <div class="cost-info">
+      <h2 class="subtotal">Total Cost $1.00</h2>
+      <button id="checkout-btn">Proceed to Checkout</button>
+    </div>
+
+
 
 
   <div id="chat-widget">
@@ -92,18 +99,18 @@
 
 <!-- Login/Logout Checker -->
 <script>
-    // Login/logout checker and helper
+  // Login/logout checker and helper
   (function () {
-  // Only run this once per browser session
-  const FLAG_KEY = "ns_initial_logout_done";
+    // Only run this once per browser session
+    const FLAG_KEY = "ns_initial_logout_done";
 
-  if (!sessionStorage.getItem(FLAG_KEY)) {
-    // Clear any old auth token from previous sessions
-    localStorage.removeItem("access_token");
-    // Mark that we've done the initial logout
-    sessionStorage.setItem(FLAG_KEY, "1");
-  }
-})();
+    if (!sessionStorage.getItem(FLAG_KEY)) {
+      // Clear any old auth token from previous sessions
+      localStorage.removeItem("access_token");
+      // Mark that we've done the initial logout
+      sessionStorage.setItem(FLAG_KEY, "1");
+    }
+  })();
   function handleLogout(event) {
     event.preventDefault();
 
@@ -213,6 +220,8 @@
   // -----------------------------
   // Load CART ITEMS into the table (DummyJSON version)
   // -----------------------------
+  let subtotal= 0.00;
+  const subTotalEl = document.querySelector(".subtotal");
 
   async function loadCart() {
     const token = localStorage.getItem("access_token");
@@ -242,31 +251,44 @@
       table.querySelectorAll("tr:not(:first-child)").forEach(row => row.remove());
 
       for (const item of cartData) {
-        
+
         // Fetch product details from DummyJSON
         const productResp = await fetch(`https://dummyjson.com/products/${item.product_id}`);
         const product = await productResp.json();
-        
+
         const productImage = product.thumbnail;
         const productPrice = product.price;
         const totalCost = (productPrice * item.quantity).toFixed(2);
+        subtotal += parseFloat(totalCost);
 
         const row = document.createElement("tr");
         row.innerHTML = `
           <td><img src="${productImage}" alt="Product Image" style="width:50px;height:50px;"></td>
           <td>${item.quantity}</td>
+          <td>$${productPrice}</td>
           <td>$${totalCost}</td>
-          <td>$${totalCost * item.quantity}</td>
-
         `;
 
         table.appendChild(row);
       }
+      subTotalEl.textContent = `Total Cost $${subtotal.toFixed(2)}`
+
+      localStorage.setItem("cart_subtotal", subtotal.toFixed(2));
+
 
     } catch (err) {
       console.error("Error loading cart:", err);
     }
   }
+
+
+  document.getElementById("checkout-btn").addEventListener("click", () => {
+    if (subtotal <= 0){
+      alert("Your cart is empty")
+      return;
+    }
+    window.location.href = "/checkout";
+  });
 
   window.addEventListener("DOMContentLoaded", loadCart);
 </script>
