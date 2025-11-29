@@ -281,14 +281,47 @@
     }
   }
 
+  // Links directly to payout stripe page 
+  document.getElementById("checkout-btn").addEventListener("click", async () => {
+  // 1) Make sure there is something in the cart
+  if (subtotal <= 0) {
+    alert("Your cart is empty");
+    return;
+  }
 
-  document.getElementById("checkout-btn").addEventListener("click", () => {
-    if (subtotal <= 0){
-      alert("Your cart is empty")
+  // 2) Make sure the user is logged in
+  const token = localStorage.getItem("access_token");
+  if (!token) {
+    alert("You must be signed in to checkout.");
+    window.location.href = "{{ url_for('login') }}";
+    return;
+  }
+
+  try {
+    // 3) Call your real payment endpoint directly
+    const resp = await fetch("/payments/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    const data = await resp.json();
+
+    if (!resp.ok) {
+      alert(data.error || "Failed to start payment.");
       return;
     }
-    window.location.href = "/checkout";
-  });
+
+    // 4) Go straight to Stripe Checkout page
+    window.location.href = data.checkout_url;
+
+  } catch (err) {
+    console.error(err);
+    alert("Network error starting checkout.");
+  }
+});
 
   window.addEventListener("DOMContentLoaded", loadCart);
 </script>
