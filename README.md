@@ -63,27 +63,6 @@ The backend is built in **Python/Flask**, the frontend uses HTML/CSS/JS, and dat
 
 ---
 
-## 📁 Project Structure
-
-```
-final/
-│── app.py
-│── models.py
-│── routes/
-│   ├── auth.py
-│   ├── products.py
-│   ├── payment.py
-│   └── chat.py
-│── static/
-│── templates/
-│── campaign.json  (generated automatically)
-│── requirements.txt
-│── Dockerfile
-│── .env  (not included – you create this)
-```
-
----
-
 ## ⚙️ Environment Variables (`.env`)
 
 Create a `.env` file:
