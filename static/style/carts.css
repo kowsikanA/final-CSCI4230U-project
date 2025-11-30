@@ -100,6 +100,35 @@ input{
     gap: 25px;
 }
 
+.cost-info{
+    margin-top: 20px;
+    text-align: center;
+}
+
+#checkout-btn{
+  width: 10%;
+  align-self: center;
+  text-align: center;  
+  background-color: #dcfce7;
+  color: black;
+  transition: all ease-in-out 0.2s;
+  padding: 10px 5px;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 10px;
+  border-color: rgb(50, 83, 50);
+  font-weight: 500;
+}
+
+#checkout-btn:active{
+  background-color: rgb(87, 149, 185);
+}
+
+
+#checkout-btn:hover{
+  background-color: rgb(142, 189, 236);
+}
+
 
 /* CSS for Chatbox */
 
@@ -230,3 +259,4 @@ input{
   padding: 8px;
   width: auto;
 }
+

@@ -36,20 +36,6 @@
       </ul>
     </div>
 
-    <div class="categories">
-      <ul>
-        <li style="font-weight: 500;">Black Friday</li>
-        <li>Electronics</li>
-        <li>Home Appliances</li>
-        <li>Clothes</li>
-        <li>Sports</li>
-        <li>Gaming</li>
-        <li>Toys</li>
-        <li>Groceries</li>
-      </ul>
-    </div>
-  </div>
-
 
   <section id="">
     <div id="productDetails">
@@ -612,6 +598,72 @@
   // Optional: allow user to click to dismiss immediately
   notificationEl?.addEventListener("click", () => {
     notificationEl.classList.remove("show");
+  });
+</script>
+
+<script>
+
+  // ----- Chat widget logic -----
+  const chatWidget = document.getElementById("chat-widget");
+  const chatToggle = document.getElementById("chat-toggle");
+  const chatBody = document.getElementById("chat-body");
+  const chatInput = document.getElementById("chat-input");
+  const chatSend = document.getElementById("chat-send");
+
+  function appendMessage(role, text) {
+    const msg = document.createElement("div");
+    msg.className = "chat-message " + role;
+    msg.textContent = text;
+    chatBody.appendChild(msg);
+    chatBody.scrollTop = chatBody.scrollHeight;
+    return msg;
+  }
+
+  async function sendChat() {
+    const text = (chatInput.value || "").trim();
+    if (!text) return;
+
+    appendMessage("user", text);
+    chatInput.value = "";
+
+    const thinkingEl = appendMessage("bot", "Thinking...");
+
+    try {
+      const resp = await fetch("/ai/ask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt: text }),
+      });
+
+      if (!resp.ok) {
+        thinkingEl.textContent = "Error: " + resp.status;
+        return;
+      }
+
+      const data = await resp.json();
+      thinkingEl.textContent = data.output || "(No response from model.)";
+    } catch (err) {
+      console.error(err);
+      thinkingEl.textContent = "Network error. Please try again.";
+    }
+  }
+
+  // Toggle open/close when clicking the bubble
+  chatToggle.addEventListener("click", () => {
+    chatWidget.classList.toggle("open");
+  });
+
+  // Send on button click
+  chatSend.addEventListener("click", sendChat);
+
+  // Send on Enter key (Shift+Enter = newline ignored since it's a single-line input)
+  chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendChat();
+    }
   });
 </script>
 
