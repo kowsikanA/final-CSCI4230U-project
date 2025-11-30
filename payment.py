@@ -76,8 +76,8 @@ def create_checkout_session():
             payment_method_types=["card"],
             line_items=line_items,
             mode="payment",
-            success_url=f"http://localhost:5001/order/confirmed?order_id={order.id}",
-            cancel_url=f"http://localhost:5001/order/failed?order_id={order.id}",
+            success_url=f"http://localhost:5000/order/confirmed?order_id={order.id}",
+            cancel_url=f"http://localhost:5000/order/failed?order_id={order.id}",
             metadata={
                 "order_id": str(order.id),
                 "user_id": str(user.id),
