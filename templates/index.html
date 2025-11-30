@@ -156,8 +156,150 @@
   <script>
   // ----- logic -----
   let selectedProduct = null;
+  let allProducts = []; // This will store all the fetched items - NEW CODE
 
   // Fetch products from DummyJSON and render only tech devices
+  // async function fetchProducts() {
+  //   try {
+  //     // 1) Get ALL products but only the fields we care about
+  //     const res = await fetch(
+  //       "https://dummyjson.com/products?limit=0&select=title,price,thumbnail,category,description"
+  //     );
+
+  //     if (!res.ok) {
+  //       throw new Error(`Response status: ${res.status}`);
+  //     }
+
+  //     // 2) DummyJSON returns: { products: [...], total, skip, limit }
+  //     const data = await res.json();
+  //     let products = data.products || [];
+
+  //     // 3) Keep only tech-type categories
+  //     const allowedCategories = [
+  //       "fragrances",
+  //       "groceries"
+  //     ];
+
+  //     products = products.filter((product) =>
+  //       allowedCategories.includes(product.category)
+  //     );
+
+  //     // 4) Get container
+  //     const productListDiv = document.getElementById("product-list");
+  //     if (!productListDiv) {
+  //       console.error("No element with id 'product-list' found in the DOM.");
+  //       return;
+  //     }
+
+  //     productListDiv.innerHTML = "";
+
+  //     if (products.length === 0) {
+  //       productListDiv.innerHTML =
+  //         "<p style='color:white;'>No tech products found.</p>";
+  //       return;
+  //     }
+
+  //     // 5) Render cards (no direct Add to Cart here; click opens modal)
+  //     products.forEach((product) => {
+  //       const productDiv = document.createElement("div");
+  //       productDiv.className = "product";
+
+  //       const img = document.createElement("img");
+  //       img.src = product.thumbnail;
+  //       img.alt = product.title;
+  //       img.className = "product-image";
+
+  //       const title = document.createElement("p");
+  //       title.className = "product-name";
+  //       title.textContent =
+  //         product.title.length > 25
+  //           ? product.title.substring(0, 25) + "..."
+  //           : product.title;
+
+  //       const price = document.createElement("h3");
+  //       price.className = "product-price";
+  //       price.textContent = `$${product.price}`;
+
+  //       const category = document.createElement("p");
+  //       category.className = "product-category";
+  //       category.textContent = product.category;
+
+  //       // Entire card clickable → open modal
+  //       productDiv.addEventListener("click", () => {
+  //         openProductModal(product);
+  //       });
+
+  //       productDiv.appendChild(img);
+  //       productDiv.appendChild(title);
+  //       productDiv.appendChild(price);
+  //       // productDiv.appendChild(category);
+
+  //       productListDiv.appendChild(productDiv);
+  //     });
+  //   } catch (error) {
+  //     console.error("Error fetching products:", error);
+
+  //     const productListDiv = document.getElementById("product-list");
+  //     if (productListDiv) {
+  //       productListDiv.innerHTML =
+  //         "<p style='color:white;'>Sorry, we couldn't load the products right now.</p>";
+  //     }
+  //     showNotification("We couldn't load products. Please refresh the page.", "error");
+  //   }
+  // }
+
+    // Create / update cards based on a given product array
+  function renderProducts(products) {
+    const productListDiv = document.getElementById("product-list");
+    if (!productListDiv) {
+      console.error("No element with id 'product-list' found in the DOM.");
+      return;
+    }
+
+    // Clear previous cards
+    productListDiv.innerHTML = "";
+
+    if (!products || products.length === 0) {
+      productListDiv.innerHTML =
+        "<p style='color:white;'>No products found.</p>";
+      return;
+    }
+
+    products.forEach((product) => {
+      const productDiv = document.createElement("div");
+      productDiv.className = "product";
+
+      const img = document.createElement("img");
+      img.src = product.thumbnail;
+      img.alt = product.title;
+      img.className = "product-image";
+
+      const title = document.createElement("p");
+      title.className = "product-name";
+      title.textContent =
+        product.title.length > 25
+          ? product.title.substring(0, 25) + "..."
+          : product.title;
+
+      const price = document.createElement("h3");
+      price.className = "product-price";
+      price.textContent = `$${product.price}`;
+
+      // Entire card clickable → open modal
+      productDiv.addEventListener("click", () => {
+        openProductModal(product);
+      });
+
+      productDiv.appendChild(img);
+      productDiv.appendChild(title);
+      productDiv.appendChild(price);
+      // productDiv.appendChild(category); // if you want category displayed too
+
+      productListDiv.appendChild(productDiv);
+    });
+  }
+
+  // Fetch products from DummyJSON and keep them in memory
   async function fetchProducts() {
     try {
       // 1) Get ALL products but only the fields we care about
@@ -173,68 +315,16 @@
       const data = await res.json();
       let products = data.products || [];
 
-      // 3) Keep only tech-type categories
-      const allowedCategories = [
-        "fragrances",
-        "groceries"
-      ];
+      // 3) Keep only the categories you care about
+      const allowedCategories = ["fragrances", "groceries"];
 
       products = products.filter((product) =>
         allowedCategories.includes(product.category)
       );
 
-      // 4) Get container
-      const productListDiv = document.getElementById("product-list");
-      if (!productListDiv) {
-        console.error("No element with id 'product-list' found in the DOM.");
-        return;
-      }
-
-      productListDiv.innerHTML = "";
-
-      if (products.length === 0) {
-        productListDiv.innerHTML =
-          "<p style='color:white;'>No tech products found.</p>";
-        return;
-      }
-
-      // 5) Render cards (no direct Add to Cart here; click opens modal)
-      products.forEach((product) => {
-        const productDiv = document.createElement("div");
-        productDiv.className = "product";
-
-        const img = document.createElement("img");
-        img.src = product.thumbnail;
-        img.alt = product.title;
-        img.className = "product-image";
-
-        const title = document.createElement("p");
-        title.className = "product-name";
-        title.textContent =
-          product.title.length > 25
-            ? product.title.substring(0, 25) + "..."
-            : product.title;
-
-        const price = document.createElement("h3");
-        price.className = "product-price";
-        price.textContent = `$${product.price}`;
-
-        const category = document.createElement("p");
-        category.className = "product-category";
-        category.textContent = product.category;
-
-        // Entire card clickable → open modal
-        productDiv.addEventListener("click", () => {
-          openProductModal(product);
-        });
-
-        productDiv.appendChild(img);
-        productDiv.appendChild(title);
-        productDiv.appendChild(price);
-        // productDiv.appendChild(category);
-
-        productListDiv.appendChild(productDiv);
-      });
+      // 4) Save for searching and render once
+      allProducts = products;
+      renderProducts(products);
     } catch (error) {
       console.error("Error fetching products:", error);
 
@@ -243,9 +333,15 @@
         productListDiv.innerHTML =
           "<p style='color:white;'>Sorry, we couldn't load the products right now.</p>";
       }
-      showNotification("We couldn't load products. Please refresh the page.", "error");
+
+      // Use your existing notification helper if you like
+      showNotification(
+        "We couldn't load products. Please refresh the page.",
+        "error"
+      );
     }
   }
+
 
   // ----- Modal logic -----
   const modal = document.getElementById("product-modal");
@@ -345,6 +441,60 @@
     window.location.href = "/productDetails";
 
   });
+
+
+
+
+
+
+
+
+
+
+
+
+  const searchInput = document.getElementById("product-search");
+  const searchButton = document.querySelector(".search-btn");
+
+  function handleSearch() {
+    // If products haven't loaded yet, do nothing
+    if (!allProducts || allProducts.length === 0) {
+      return;
+    }
+
+    const query = searchInput.value.trim().toLowerCase();
+
+    // Empty search → show all products again
+    if (!query) {
+      renderProducts(allProducts);
+      return;
+    }
+
+    const filtered = allProducts.filter((product) => {
+      return (
+        product.title.toLowerCase().includes(query) ||
+        product.category.toLowerCase().includes(query)
+      );
+    });
+
+    renderProducts(filtered);
+  }
+
+  if (searchInput && searchButton) {
+    // Click on the search icon
+    searchButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      handleSearch();
+    });
+
+    // Press Enter inside the search box
+    searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        handleSearch();
+      }
+    });
+  }
 
 
 
