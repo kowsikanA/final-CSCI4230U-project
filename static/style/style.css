@@ -166,11 +166,13 @@ input{
     text-align: center;
     color: white;
     font-size: 13px;
+    font-weight: 500;
     border-radius: 10px;
     margin-bottom: 5px;
     cursor: pointer;
 
 }
+
 
 /* CSS for Chatbox */
 

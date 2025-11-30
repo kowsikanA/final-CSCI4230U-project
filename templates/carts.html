@@ -33,31 +33,19 @@
       </ul>
     </div>
 
-  <div class="carts">
-    <table class="carts-table">
-      <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Cost</th>
-        <th>Total Cost</th>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+    <div class="carts">
+      <table class="carts-table">
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Cost</th>
+          <th>Total Cost</th>
+          <th>Action</th>
+        </tr>
 
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+      </table>
 
-      </tr>
-    </table>
-    
-  </div>
+    </div>
 
     <div class="cost-info">
       <h2 class="subtotal">Total Cost $1.00</h2>
@@ -67,19 +55,19 @@
 
 
 
-  <div id="chat-widget">
-    <div class="chat-header">NorthStar Assistant</div>
-    <div class="chat-body" id="chat-body">
-      <div class="chat-message bot">
-        Hi! 👋. Have any questions about the products we sell, go ahead and ask us some questions.
+    <div id="chat-widget">
+      <div class="chat-header">NorthStar Assistant</div>
+      <div class="chat-body" id="chat-body">
+        <div class="chat-message bot">
+          Hi! 👋. Have any questions about the products we sell, go ahead and ask us some questions.
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chat-input" placeholder="What is the latest airpod generation?" autocomplete="off" />
+        <button id="chat-send">Send</button>
       </div>
     </div>
-    <div class="chat-input-row">
-      <input type="text" id="chat-input" placeholder="What is the latest airpod generation?" autocomplete="off" />
-      <button id="chat-send">Send</button>
-    </div>
-  </div>
-  <button id="chat-toggle" aria-label="Open chat">💬</button>
+    <button id="chat-toggle" aria-label="Open chat">💬</button>
 
 </body>
 
@@ -206,12 +194,12 @@
   // -----------------------------
   // Load CART ITEMS into the table (DummyJSON version)
   // -----------------------------
-  let subtotal= 0.00;
+  let subtotal = 0.00;
   const subTotalEl = document.querySelector(".subtotal");
 
   async function loadCart() {
     const token = localStorage.getItem("access_token");
-
+    subtotal = 0;
     if (!token) {
       console.log("No token found → user not logged in.");
       return;
@@ -253,6 +241,14 @@
           <td>${item.quantity}</td>
           <td>$${productPrice}</td>
           <td>$${totalCost}</td>
+          <td>
+            <button
+              class="delete-btn"
+              data-cart-id="${item.id}"
+            >
+                Remove
+            </button>
+          </td>
         `;
 
         table.appendChild(row);
@@ -267,47 +263,101 @@
     }
   }
 
-  // Links directly to payout stripe page 
-  document.getElementById("checkout-btn").addEventListener("click", async () => {
-  // 1) Make sure there is something in the cart
-  if (subtotal <= 0) {
-    alert("Your cart is empty");
+  // Handle delete clicks (event delegation on the table)
+document.querySelector(".carts-table").addEventListener("click", async (e) => {
+  if (!e.target.classList.contains("delete-btn")) return;
+
+  const btn = e.target;
+  const cartId = btn.dataset.cartId;
+  const token = localStorage.getItem("access_token");
+
+  if (!token) {
+    alert("You must be signed in to modify your cart.");
     return;
   }
 
-  // 2) Make sure the user is logged in
-  const token = localStorage.getItem("access_token");
-  if (!token) {
-    alert("You must be signed in to checkout.");
-    window.location.href = "{{ url_for('login') }}";
-    return;
-  }
+  const confirmDelete = confirm("Remove this item from your cart?");
+  if (!confirmDelete) return;
 
   try {
-    // 3) Call your real payment endpoint directly
-    const resp = await fetch("/payments/checkout", {
-      method: "POST",
+    const resp = await fetch(`/api/cart/${cartId}`, {
+      method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
         "Authorization": "Bearer " + token
       }
     });
 
-    const data = await resp.json();
+    const data = await resp.json().catch(() => ({}));
 
     if (!resp.ok) {
-      alert(data.error || "Failed to start payment.");
+      alert(data.error || "Could not delete this item.");
       return;
     }
 
-    // 4) Go straight to Stripe Checkout page
-    window.location.href = data.checkout_url;
+    // Update subtotal and remove the row from the table
+    const row = btn.closest("tr");
+    const totalCell = row.querySelector(".row-total");
+    if (totalCell) {
+      const value = parseFloat(
+        totalCell.textContent.replace("$", "")
+      ) || 0;
+      subtotal -= value;
+      if (subtotal < 0) subtotal = 0;
+
+      subTotalEl.textContent = `Total Cost $${subtotal.toFixed(2)}`;
+      localStorage.setItem("cart_subtotal", subtotal.toFixed(2));
+    }
+
+    row.remove();
 
   } catch (err) {
-    console.error(err);
-    alert("Network error starting checkout.");
+    console.error("Error deleting cart item:", err);
+    alert("Network error. Please try again.");
   }
 });
+
+
+  // Links directly to payout stripe page 
+  document.getElementById("checkout-btn").addEventListener("click", async () => {
+    // 1) Make sure there is something in the cart
+    if (subtotal <= 0) {
+      alert("Your cart is empty");
+      return;
+    }
+
+    // 2) Make sure the user is logged in
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      alert("You must be signed in to checkout.");
+      window.location.href = "{{ url_for('login') }}";
+      return;
+    }
+
+    try {
+      // 3) Call your real payment endpoint directly
+      const resp = await fetch("/payments/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        }
+      });
+
+      const data = await resp.json();
+
+      if (!resp.ok) {
+        alert(data.error || "Failed to start payment.");
+        return;
+      }
+
+      // 4) Go straight to Stripe Checkout page
+      window.location.href = data.checkout_url;
+
+    } catch (err) {
+      console.error(err);
+      alert("Network error starting checkout.");
+    }
+  });
 
   window.addEventListener("DOMContentLoaded", loadCart);
 </script>

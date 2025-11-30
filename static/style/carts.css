@@ -130,6 +130,32 @@ input{
 }
 
 
+.delete-btn{
+    padding: 10px 15px;
+    background-color: #e31616;
+    text-align: center;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: 0.2s all ease-in-out;
+}
+
+.delete-btn:hover{
+    background-color: #a51717;
+
+}
+
+.delete-btn:active{
+    background-color: #f54848;
+
+}
+
+
+
 /* CSS for Chatbox */
 
 #chat-toggle {
