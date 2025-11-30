@@ -135,6 +135,11 @@ input{
     padding: 20px 20px;
     margin-bottom: 15px;
     cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.product:hover{
+    transform: translateY(-10px);
 }
 
 .product-price{
