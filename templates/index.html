@@ -68,6 +68,8 @@
         <p id="modal-price" class="modal-price"></p>
         <p id="modal-description" class="modal-description"></p>
 
+        <button id="modal-view-details" class="more-details-btn">View Details</button>
+
         <button id="modal-add-to-cart" class="cart-btn">
           Add to Cart
         </button>
@@ -254,6 +256,8 @@
   const modalDescription = document.getElementById("modal-description");
   const modalCloseBtn = document.getElementById("modal-close");
   const modalAddToCartBtn = document.getElementById("modal-add-to-cart");
+  
+  const viewDetailsBtn = document.getElementById("modal-view-details");
 
   function openProductModal(product) {
     selectedProduct = product;
@@ -332,6 +336,17 @@
     // alert(`Added "${selectedProduct.title}" to cart (mock).`);
     // closeProductModal();
   });
+
+  viewDetailsBtn.addEventListener("click", function (){
+    if (!selectedProduct) return;
+
+    localStorage.setItem("selectedProductId", selectedProduct.id);
+
+    window.location.href = "/productDetails";
+
+  });
+
+
 
   // Run on page load
   fetchProducts();

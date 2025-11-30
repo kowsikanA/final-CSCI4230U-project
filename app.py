@@ -77,6 +77,11 @@ def create_app():
     def order_failed():
         order_id = request.args.get("order_id")
         return render_template("order_failed.html", order_id=order_id)
+    
+    @app.route("/productDetails")
+    def product_details():
+        return render_template("productDetails.html")
+
 
 
     return app
