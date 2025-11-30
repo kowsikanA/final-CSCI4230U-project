@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <title></title>
   <meta charset="UTF-8">
@@ -8,79 +7,93 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style/login.css') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+  >
 </head>
 
 <body>
   <section id="login-section">
     <div class="login-container">
       <div class="title">
-        <a href="{{ url_for('home') }}"><svg class="home-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 50 50"><path d="M 25 1.0507812 C 24.7825 1.0507812 24.565859 1.1197656 24.380859 1.2597656 L 1.3808594 19.210938 C 0.95085938 19.550938 0.8709375 20.179141 1.2109375 20.619141 C 1.5509375 21.049141 2.1791406 21.129062 2.6191406 20.789062 L 4 19.710938 L 4 46 C 4 46.55 4.45 47 5 47 L 19 47 L 19 29 L 31 29 L 31 47 L 45 47 C 45.55 47 46 46.55 46 46 L 46 19.710938 L 47.380859 20.789062 C 47.570859 20.929063 47.78 21 48 21 C 48.3 21 48.589063 20.869141 48.789062 20.619141 C 49.129063 20.179141 49.049141 19.550938 48.619141 19.210938 L 25.619141 1.2597656 C 25.434141 1.1197656 25.2175 1.0507812 25 1.0507812 z M 35 5 L 35 6.0507812 L 41 10.730469 L 41 5 L 35 5 z"></path></svg></a>
+        <a href="{{ url_for('home') }}">
+          <svg
+            class="home-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            x="0px"
+            y="0px"
+            width="30"
+            height="30"
+            viewBox="0 0 50 50"
+          >
+            <path d="M 25 1.0507812 C 24.7825 1.0507812 24.565859 1.1197656 24.380859 1.2597656 L 1.3808594 19.210938 C 0.95085938 19.550938 0.8709375 20.179141 1.2109375 20.619141 C 1.5509375 21.049141 2.1791406 21.129062 2.6191406 20.789062 L 4 19.710938 L 4 46 C 4 46.55 4.45 47 5 47 L 19 47 L 19 29 L 31 29 L 31 47 L 45 47 C 45.55 47 46 46.55 46 46 L 46 19.710938 L 47.380859 20.789062 C 47.570859 20.929063 47.78 21 48 21 C 48.3 21 48.589063 20.869141 48.789062 20.619141 C 49.129063 20.179141 49.049141 19.550938 48.619141 19.210938 L 25.619141 1.2597656 C 25.434141 1.1197656 25.2175 1.0507812 25 1.0507812 z M 35 5 L 35 6.0507812 L 41 10.730469 L 41 5 L 35 5 z"></path>
+          </svg>
+        </a>
         <h2>Login</h2>
       </div>
-      <div class="inputs">
 
+      <div class="inputs">
         <label for="email">Email</label>
         <input type="email" name="email" id="email" required>
 
         <label for="password">Password</label>
         <input type="password" name="password" id="password" required>
 
-        <p class="forgot-password"><a href="/forgot-password">Forgot your password?</a></p>
-
+        <p class="forgot-password">
+          <a href="/forgot-password">Forgot your password?</a>
+        </p>
       </div>
-      
-      <button class="login-btn" onclick="login()">Login</button>
-      <h4>Dont have an account? <a class="signup-link" href="{{ url_for('signup') }}">Sign Up</a></h4>
-    </div>
-      <h3 class="login-suc">Login Success</h3>
-      <h3 class="login-fail">Email or password is incorrect</h3>
 
+      <button class="login-btn" onclick="login()">Login</button>
+      <h4>
+        Dont have an account?
+        <a class="signup-link" href="{{ url_for('signup') }}">Sign Up</a>
+      </h4>
+    </div>
+
+    <h3 class="login-suc">Login Success</h3>
+    <h3 class="login-fail">Email or password is incorrect</h3>
   </section>
 
-</body>
+  <script>
+    async function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
+      try {
+        const res = await fetch("/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        });
 
-<script>
-  async function login() {
-    const email = document.getElementById("email").value
-    const password = document.getElementById("password").value
-    
-    try{
-      const res = await fetch('/auth/login', {
-        method: "POST",
-        headers:{
-          "Content-Type": "application/json" 
-        }, 
-        body: JSON.stringify({
-          email: email,
-          password: password
-        })
-      });
-      const data = await res.json();
-      if (!res.ok){
-        document.querySelector(".login-fail").style.display="flex";
-        document.querySelector(".login-suc").style.display="none";
-      }
+        const data = await res.json();
 
-      if (data.access_token){
-        localStorage.setItem("access_token", data.access_token);
-        console.log(data.access_token);
-        document.querySelector(".login-suc").style.display="flex";
-        document.querySelector(".login-fail").style.display="none";        
-        setTimeout(()=> {         
-            window.location.href='/';}, 2000)
+        if (!res.ok) {
+          document.querySelector(".login-fail").style.display = "flex";
+          document.querySelector(".login-suc").style.display = "none";
         }
 
-      
+        if (data.access_token) {
+          localStorage.setItem("access_token", data.access_token);
+          console.log(data.access_token);
+          document.querySelector(".login-suc").style.display = "flex";
+          document.querySelector(".login-fail").style.display = "none";
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 2000);
+        }
+      } catch (err) {
+        console.log(err);
+        alert("Network Error.");
+      }
     }
-    catch(err){
-      console.log(err);
-      alert("Network Error.")
-    }
-  } 
-
-</script>
-
+  </script>
+</body>
 </html>

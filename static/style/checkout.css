@@ -1,105 +1,97 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-
-
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 
-
-html, body{
-    background-color: #eff5f9;
-    height: 100vh;
+html,
+body {
+  background-color: #eff5f9;
+  height: 100vh;
 }
 
+/* Navbar */
 
-/* Css for Navbar */
-
-.logo{
-    height: 10rem;
-    width: auto;
-    cursor: pointer;
-}
-.cart{
-    height: 32px;
-    width: auto;
-    
+.logo {
+  height: 10rem;
+  width: auto;
+  cursor: pointer;
 }
 
-li a{
-    color: white;
-    text-decoration: none;
+.cart {
+  height: 32px;
+  width: auto;
 }
 
-
-.navbar{
-    height: 5rem;
-    background-color: #0B1D33;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-
+li a {
+  color: white;
+  text-decoration: none;
 }
 
-.search-bar{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.navbar {
+  height: 5rem;
+  background-color: #0b1d33;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
 }
 
-#product-search{
-    width: 450px;
-    font-size: 16px;
-    height: 40px;
-    padding: 10px 15px;
-    border: 2px solid black;
-    border-radius: 10px 0px 0px 10px;
-    border-right: none;
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.search-btn{
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    border: 2px solid black;
-    border-left: none; 
-    border-radius: 0px 10px 10px 0px;
-    background-color: lightblue;
-    
+#product-search {
+  width: 450px;
+  font-size: 16px;
+  height: 40px;
+  padding: 10px 15px;
+  border: 2px solid black;
+  border-radius: 10px 0 0 10px;
+  border-right: none;
 }
 
-
-.nav-links{
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 25px;
+.search-btn {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border: 2px solid black;
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+  background-color: lightblue;
 }
 
-.nav-links li{
-    
-    padding: 0 10px;
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 25px;
 }
 
-
-.categories{
-
-    color: white;
-    background: #184378;
-    padding: 10px;
+.nav-links li {
+  padding: 0 10px;
 }
 
-.categories ul{
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 25px;
+.categories {
+  color: white;
+  background: #184378;
+  padding: 10px;
 }
 
-section{
+.categories ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+}
+
+/* Checkout layout */
+
+section {
   padding: 5%;
   display: flex;
   justify-content: space-between;
@@ -115,37 +107,35 @@ section{
   background-color: #ffffff;
 }
 
-.cart-information{
+.cart-information {
   margin-top: 35px;
-
   display: flex;
   flex-direction: column;
-  
   gap: 20px;
 }
-.cart-information input{
+
+.cart-information input {
   padding: 10px 15px;
   border-radius: 10px;
   background-color: #f1f2f6;
   height: 50px;
   font-size: 15px;
-
   width: 100%;
 }
+
 .cart-information div {
   display: flex;
   gap: 20px;
-
 }
-.cart-information div div{
+
+.cart-information div div {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 100%;
-
 }
 
-.payment-btn{
+.payment-btn {
   margin-top: 25px;
   width: 100%;
   padding: 15px 10px;
@@ -156,127 +146,122 @@ section{
   font-size: 20px;
   transition: 0.2s all ease-in-out;
   cursor: pointer;
+  border: none;
 }
 
-.payment-btn:hover{
+.payment-btn:hover {
   background-color: #544bff;
 }
 
-.payment-btn:active{
+.payment-btn:active {
   background-color: #8f89fa;
 }
 
-
-
-
-
-/* CSS for Chatbox */
+/* Chatbox */
 
 #chat-toggle {
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: none;
-    background: #111827;
-    color: #fff;
-    font-size: 20px;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    z-index: 999;
-    transition: all ease-in-out 0.2s;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: #111827;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  transition: all ease-in-out 0.2s;
 }
 
-#chat-toggle:hover{
-    scale: 1.3;
+#chat-toggle:hover {
+  scale: 1.3;
 }
 
 #chat-widget {
-    position: fixed;
-    bottom: 80px;
-    right: 16px;
-    width: 320px;
-    max-height: 420px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-    display: none;           
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 1000;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  width: 320px;
+  max-height: 420px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 #chat-widget.open {
-    display: flex;
+  display: flex;
 }
 
 .chat-header {
-    background: #111827;
-    color: #ffffff;
-    padding: 0.6rem 0.9rem;
-    font-weight: 600;
-    font-size: 0.9rem;
+  background: #111827;
+  color: #ffffff;
+  padding: 0.6rem 0.9rem;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .chat-body {
-    padding: 0.6rem 0.9rem;
-    flex: 1;
-    overflow-y: auto;
-    background: #f9fafb;
+  padding: 0.6rem 0.9rem;
+  flex: 1;
+  overflow-y: auto;
+  background: #f9fafb;
 }
 
 .chat-input-row {
-    display: flex;
-    gap: 0.4rem;
-    padding: 0.5rem 0.9rem;
-    border-top: 1px solid #e5e7eb;
-    background: #ffffff;
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border-top: 1px solid #e5e7eb;
+  background: #ffffff;
 }
 
 .chat-input-row input {
-    flex: 1;
-    padding: 0.4rem 0.6rem;
-    border-radius: 999px;
-    border: 1px solid #d1d5db;
-    font-size: 0.85rem;
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  font-size: 0.85rem;
 }
 
 .chat-input-row button {
-    padding: 0.4rem 0.8rem;
-    border-radius: 999px;
-    border: none;
-    background: #4f46e5;
-    color: #ffffff;
-    font-size: 0.85rem;
-    cursor: pointer;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: none;
+  background: #4f46e5;
+  color: #ffffff;
+  font-size: 0.85rem;
+  cursor: pointer;
 }
 
 .chat-input-row button:hover {
-    background: #4338ca;
+  background: #4338ca;
 }
 
 .chat-message {
-    margin-bottom: 0.4rem;
-    padding: 0.4rem 0.6rem;
-    max-width: 85%;
-    width: fit-content;
-    font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+  padding: 0.4rem 0.6rem;
+  max-width: 85%;
+  width: fit-content;
+  font-size: 0.85rem;
 }
 
 .chat-message.user {
-    background: #c5c6c7;
-    margin-left: auto;
-    border-radius: 10px 10px 0px 10px;
-
+  background: #c5c6c7;
+  margin-left: auto;
+  border-radius: 10px 10px 0 10px;
 }
 
 .chat-message.bot {
-    background: #4f46e5;
-    color: #ffffff;
-    margin-right: auto;
-    border-radius: 10px 10px 10px 0px;
-
+  background: #4f46e5;
+  color: #ffffff;
+  margin-right: auto;
+  border-radius: 10px 10px 10px 0;
 }

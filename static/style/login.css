@@ -1,29 +1,25 @@
-
-*{
-  font-family: 'Roboto', sans-serif;
+* {
+  font-family: "Roboto", sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body{
-  background: #fefefe;
+html,
+body {
+  background-color: #eff5f9;
+  height: 100vh;
 }
 
-
-html, body{
-    background-color: #eff5f9;
-    height: 100vh;
-}
-
-#login-section{
+#login-section {
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.login-container{
+
+.login-container {
   width: 35%;
   border: 1px solid rgb(214, 214, 214);
   border-radius: 5px;
@@ -31,11 +27,10 @@ html, body{
   flex-direction: column;
   gap: 60px;
   padding: 50px;
-  box-shadow: 0px 20px 20px 0px rgba(0,0,0,0.19);
-
+  box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.inputs{
+.inputs {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -43,40 +38,39 @@ html, body{
 }
 
 .title {
-  position: relative;      /* allows us to absolutely position the icon */
-  text-align: center;      /* center the Login text */
-  padding: 16px 0;         /* optional: some vertical spacing */
+  position: relative;
+  text-align: center;
+  padding: 16px 0;
 }
 
 .title h2 {
-  margin: 0;               /* remove default margins so centering is clean */
+  margin: 0;
 }
 
 .home-icon {
   position: absolute;
-  left: 16px;              /* distance from the left edge of the card */
+  left: 16px;
   top: 50%;
-  transform: translateY(-50%); /* vertically center the icon in the title area */
+  transform: translateY(-50%);
 }
 
-
-h2{
-  color: Black;
-  font-size: 24px ;
+h2 {
+  color: black;
+  font-size: 24px;
   align-items: center;
 }
 
-h4{
+h4 {
   text-align: center;
-  color:rgb(121, 72, 21);
+  color: rgb(121, 72, 21);
 }
 
-.signup-link{
+.signup-link {
   text-decoration: underline;
   color: rgb(137, 137, 239);
 }
 
-input{
+input {
   border-radius: 5px;
   border: 1px solid rgb(220, 220, 220);
   padding: 10px;
@@ -84,9 +78,9 @@ input{
   margin-bottom: 30px;
 }
 
-.login-btn{
+.login-btn {
   align-self: center;
-  text-align: center;  
+  text-align: center;
   background-color: rgb(109, 173, 241);
   color: white;
   transition: all ease-in-out 0.2s;
@@ -98,37 +92,35 @@ input{
   font-weight: 500;
 }
 
-.login-btn:active{
+.login-btn:hover {
+  background-color: rgb(142, 189, 236);
+}
+
+.login-btn:active {
   background-color: rgb(87, 149, 185);
 }
 
-
-.login-btn:hover{
-  background-color: rgb(142, 189, 236);
-
-}
-
-.login-suc, .login-fail{
+.login-suc,
+.login-fail {
   display: none;
 }
 
-.login-suc{
+.login-suc {
   margin-top: 35px;
-
   background-color: rgb(199, 236, 199);
   padding: 20px 10%;
   border: 2px solid rgb(28, 227, 124);
   border-radius: 10px;
   font-size: 15px;
-  color:green;
+  color: green;
 }
 
-.login-fail{
+.login-fail {
   margin-top: 35px;
   background-color: rgb(236, 199, 199);
   padding: 20px 10%;
   border: 2px solid rgb(227, 28, 28);
   border-radius: 10px;
   font-size: 15px;
-  color:rgb(255, 0, 0);
+  color: rgb(255, 0, 0);
 }

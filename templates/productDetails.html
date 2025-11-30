@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <title></title>
   <meta charset="UTF-8">
@@ -8,111 +7,119 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style/productDetails.css') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+  >
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  >
 </head>
 
 <body>
-
   <!-- Navbar -->
   <div class="main-navbar">
     <div class="navbar">
-      <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo-2.png') }}" alt="logo"
-          class="logo"></a>
+      <a href="{{ url_for('home') }}">
+        <img
+          src="{{ url_for('static', filename='images/logo-2.png') }}"
+          alt="logo"
+          class="logo"
+        >
+      </a>
 
       <ul class="nav-links">
         <div class="search-bar">
           <form action="">
-            <input type="search" name="product-search" id="product-search" placeholder="Search for products">
-            <button class="search-btn"><i class="fa fa-search"></i></button>
+            <input
+              type="search"
+              name="product-search"
+              id="product-search"
+              placeholder="Search for products"
+            >
+            <button class="search-btn">
+              <i class="fa fa-search"></i>
+            </button>
           </form>
         </div>
-        <li class="link"><a href="{{ url_for('login') }}" id="auth-link">Sign In</a></li>
-        <li class="link"><a href="{{ url_for('carts') }}"><i class="fa fa-shopping-cart cart-icon" aria-hidden="true"
-              style="font-size: 24px;"></i></a></li>
+        <li class="link">
+          <a href="{{ url_for('login') }}" id="auth-link">Sign In</a>
+        </li>
+        <li class="link">
+          <a href="{{ url_for('carts') }}">
+            <i
+              class="fa fa-shopping-cart cart-icon"
+              aria-hidden="true"
+              style="font-size: 24px;"
+            ></i>
+          </a>
+        </li>
       </ul>
     </div>
 
-
-  <section id="">
-    <div id="productDetails">
-      <div class="productImages">
-        <div class="imageGallery">
-
-        </div>
-        <div class="largeImage">
-
+    <section>
+      <div id="productDetails">
+        <div class="productImages">
+          <div class="imageGallery"></div>
+          <div class="largeImage"></div>
         </div>
 
-      </div>
+        <div class="productInfo">
+          <h3 class="product-title"></h3>
 
-      <div class="productInfo">
-        <h3 class="product-title"></h3>
+          <div class="star-rating"></div>
 
-        <div class="star-rating"></div>
+          <p class="product-brand"></p>
+          <p class="product-cost"></p>
 
-        <p class="product-brand"></p>
-        <p class="product-cost"></p>
+          <div class="quantity-select">
+            <button class="add-q">+</button>
+            <p class="quantity"></p>
+            <button class="subtract-q">-</button>
+          </div>
 
-        <div class="quantity-select">
-          <button class="add-q">+</button>
-          <p class="quantity"></p>
-          <button class="subtract-q">-</button>
+          <p class="availability"></p>
+
+          <button class="cart-btn">Add to Cart</button>
         </div>
-
-        <p class="availability"></p>
-
-        <button class="cart-btn">Add to Cart</button>
-
       </div>
 
-    </div>
-
-    <div class="related-products">
-      <h2>Related Products </h2>
-      
-      <div class="products"> </div>
-    </div>
-
-
-    <button class="accordion"> About this Product </button>
-
-    <div class="panel">
-      <div class="product-description">
-        <h3>About this Product</h3>
-        <p class="description" style="margin-top: 10px;width: 200px"></p>
+      <div class="related-products">
+        <h2>Related Products</h2>
+        <div class="products"></div>
       </div>
-    </div>
 
-    <button class="accordion"> Specifications </button>
-    <div class="panel">
-
-      <div class="product-specs">
-        <table>
-          <th></th>
-          <th></th>
-          <th></th>
-        </table>
+      <button class="accordion">About this Product</button>
+      <div class="panel">
+        <div class="product-description">
+          <h3>About this Product</h3>
+          <p class="description" style="margin-top: 10px; width: 200px;"></p>
+        </div>
       </div>
-    </div>
 
-
-    <button class="accordion"> Customer Reviews </button>
-    <div class="panel">
-
-      <div class="product-ratings">
-        <h3>Customer Reviews</h3>
-        <div id="reviews-container"></div>
+      <button class="accordion">Specifications</button>
+      <div class="panel">
+        <div class="product-specs">
+          <table>
+            <th></th>
+            <th></th>
+            <th></th>
+          </table>
+        </div>
       </div>
-    </div>
 
+      <button class="accordion">Customer Reviews</button>
+      <div class="panel">
+        <div class="product-ratings">
+          <h3>Customer Reviews</h3>
+          <div id="reviews-container"></div>
+        </div>
+      </div>
+    </section>
+  </div>
 
-  </section>
-
-
+  <!-- Chat widget -->
   <div id="chat-widget">
     <div class="chat-header">NorthStar Assistant</div>
     <div class="chat-body" id="chat-body">
@@ -121,7 +128,12 @@
       </div>
     </div>
     <div class="chat-input-row">
-      <input type="text" id="chat-input" placeholder="What is the latest airpod generation?" autocomplete="off" />
+      <input
+        type="text"
+        id="chat-input"
+        placeholder="What is the latest airpod generation?"
+        autocomplete="off"
+      >
       <button id="chat-send">Send</button>
     </div>
   </div>
@@ -129,87 +141,69 @@
 
   <div id="notification" class="notification"></div>
 
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <img
+          src="{{ url_for('static', filename='images/logo-2.png') }}"
+          class="footer-logo"
+          alt="NorthStar Goods"
+        >
+        <p>Your trusted online store for tech, lifestyle, and more.</p>
+      </div>
 
-  
-    <!-- ================= FOOTER ================= -->
-<footer class="footer">
-  <div class="footer-container">
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="{{ url_for('home') }}">Home</a></li>
+          <li><a href="{{ url_for('carts') }}">My Cart</a></li>
+          <li><a href="{{ url_for('login') }}">Sign In</a></li>
+        </ul>
+      </div>
 
-    <div class="footer-section">
-      <img src="{{ url_for('static', filename='images/logo-2.png') }}" class="footer-logo" alt="NorthStar Goods">
-      <p>Your trusted online store for tech, lifestyle, and more.</p>
-    </div>
+      <div class="footer-section">
+        <h4>Customer Service</h4>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Refund Policy</a></li>
+          <li><a href="#">Shipping Info</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
 
-    <div class="footer-section">
-      <h4>Quick Links</h4>
-      <ul>
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-        <!-- <li><a href="/categories">Categories</a></li> -->
-        <li><a href="{{ url_for('carts') }}">My Cart</a></li>
-        <li><a href="{{ url_for('login') }}">Sign In</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-section">
-      <h4>Customer Service</h4>
-      <ul>
-        <li><a href="#">Contact Us</a></li>
-        <li><a href="#">Refund Policy</a></li>
-        <li><a href="#">Shipping Info</a></li>
-        <li><a href="#">FAQ</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-section">
-      <h4>Follow Us</h4>
-      <div class="footer-socials">
-        <a href="#"><i class="fa fa-facebook"></i></a>
-        <a href="#"><i class="fa fa-instagram"></i></a>
-        <a href="#"><i class="fa fa-twitter"></i></a>
-        <a href="#"><i class="fa fa-youtube-play"></i></a>
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <div class="footer-socials">
+          <a href="#"><i class="fa fa-facebook"></i></a>
+          <a href="#"><i class="fa fa-instagram"></i></a>
+          <a href="#"><i class="fa fa-twitter"></i></a>
+          <a href="#"><i class="fa fa-youtube-play"></i></a>
+        </div>
       </div>
     </div>
 
-  </div>
-
-  <div class="footer-bottom">
-    <p>© 2025 NorthStar Goods — All Rights Reserved.</p>
-  </div>
-</footer>
-<!-- =============== END FOOTER =============== -->
-
-
+    <div class="footer-bottom">
+      <p>© 2025 NorthStar Goods — All Rights Reserved.</p>
+    </div>
+  </footer>
+  <!-- =============== END FOOTER =============== -->
 </body>
 
-
-
+<!-- Login / logout helper -->
 <script>
-  // Login/logout checker and helper
   (function () {
-    // Only run this once per browser session
     const FLAG_KEY = "ns_initial_logout_done";
 
     if (!sessionStorage.getItem(FLAG_KEY)) {
-      // Clear any old auth token from previous sessions
       localStorage.removeItem("access_token");
-      // Mark that we've done the initial logout
       sessionStorage.setItem(FLAG_KEY, "1");
     }
   })();
 
   function handleLogout(event) {
     event.preventDefault();
-
-    // Clear the token (this is what "logs out" a JWT-based app)
     localStorage.removeItem("access_token");
-
-    // Optional: clear any other auth-related stuff here (e.g. username)
-    // localStorage.removeItem("user_email");
-
-    // Simple feedback (use your notification helper if you have one)
-    // showNotification("You have been signed out.", "success");
-
-    // Redirect to login page (or home page if you prefer)
     window.location.href = "{{ url_for('login') }}";
   }
 
@@ -220,54 +214,53 @@
     const token = localStorage.getItem("access_token");
 
     if (token) {
-      // User is "logged in" (token exists)
       authLink.textContent = "Sign Out";
-      authLink.href = "#";          // we handle click ourselves
+      authLink.href = "#";
       authLink.onclick = handleLogout;
     } else {
-      // No token → treat as logged out
       authLink.textContent = "Sign In";
       authLink.href = "{{ url_for('login') }}";
       authLink.onclick = null;
     }
   }
 
-  // Run once when the page loads
   document.addEventListener("DOMContentLoaded", updateAuthLink);
 </script>
 
-
+<!-- Accordion logic -->
 <script>
-  var accordian = document.getElementsByClassName("accordion");
-  var i;
+  const accordian = document.getElementsByClassName("accordion");
+  let i;
 
   for (i = 0; i < accordian.length; i++) {
     accordian[i].addEventListener("click", function () {
       this.classList.toggle("active");
-      var panel = this.nextElementSibling;
+      const panel = this.nextElementSibling;
       if (panel.style.display === "block") {
         panel.style.display = "none";
-      }
-      else {
+      } else {
         panel.style.display = "block";
       }
     });
   }
 </script>
 
-
+<!-- Related products -->
 <script>
   async function fetchRelatedProducts(tag) {
     const container = document.querySelector(".related-products .products");
-    container.innerHTML = ""; // clear previous
+    container.innerHTML = "";
 
     if (!tag) return;
 
     try {
-      const res = await fetch(`https://dummyjson.com/products/category/${encodeURIComponent(tag)}`);
-      if (!res.ok){
+      const res = await fetch(
+        `https://dummyjson.com/products/category/${encodeURIComponent(tag)}`
+      );
+      if (!res.ok) {
         throw new Error(`Status ${res.status}`);
       }
+
       const data = await res.json();
       const products = data.products || [];
 
@@ -276,8 +269,7 @@
         return;
       }
 
-      products.forEach(prod => {
-        // create product card
+      products.forEach((prod) => {
         const card = document.createElement("div");
         card.className = "related-product-card";
 
@@ -287,10 +279,9 @@
           <p class="related-product-price">$${prod.price}</p>
         `;
 
-        // optionally make clickable to view details
         card.addEventListener("click", () => {
           localStorage.setItem("selectedProductId", prod.id);
-          window.location.href = "/productDetails"; // adjust to your route
+          window.location.href = "/productDetails";
         });
 
         container.appendChild(card);
@@ -300,33 +291,30 @@
       container.innerHTML = "<p>Failed to load related products.</p>";
     }
   }
-
-  
 </script>
 
+<!-- Product details, specs, quantity, add to cart -->
 <script>
-
   let currentProduct = null;
   const largeImage = document.querySelector(".largeImage");
   const imageGallery = document.querySelector(".imageGallery");
 
   async function getData() {
-
     const productId = localStorage.getItem("selectedProductId");
     if (!productId) {
       console.error("No product ID found in localStorage");
       return;
     }
 
-    const url = `https://dummyjson.com/products/${productId}`
+    const url = `https://dummyjson.com/products/${productId}`;
+
     try {
-      const res = await fetch(url)
+      const res = await fetch(url);
       if (!res.ok) {
         throw new Error(`Response status ${res.status}`);
       }
 
       currentProduct = await res.json();
-
 
       const mainImg = document.createElement("img");
       mainImg.className = "main-img";
@@ -343,12 +331,12 @@
 
         viewImg.onclick = function () {
           mainImg.src = viewImg.src;
-        }
+        };
       });
 
       document.querySelector(".product-title").textContent = currentProduct.title;
       document.querySelector(".product-cost").textContent = `$${currentProduct.price}`;
-      document.querySelector(".product-brand").textContent = `Brand: ${currentProduct.brand}`
+      document.querySelector(".product-brand").textContent = `Brand: ${currentProduct.brand}`;
       document.querySelector(".description").textContent = currentProduct.description;
 
       const starContainer = document.querySelector(".star-rating");
@@ -366,7 +354,10 @@
       starContainer.appendChild(ratingText);
 
       const availabilityStatus = document.querySelector(".availability");
-      const statusValue = currentProduct.availabilityStatus ? currentProduct.availabilityStatus.trim() : "Unknown";
+      const statusValue = currentProduct.availabilityStatus
+        ? currentProduct.availabilityStatus.trim()
+        : "Unknown";
+
       availabilityStatus.innerHTML = `Availability Status: <span>${statusValue}</span>`;
       const span = availabilityStatus.querySelector("span");
       span.style.fontWeight = "bold";
@@ -374,14 +365,11 @@
       const statusLower = statusValue.toLowerCase();
       if (statusLower === "low stock") {
         span.style.color = "orange";
-      }
-      else if (statusLower === "out of stock" || statusLower === "unavailable") {
+      } else if (statusLower === "out of stock" || statusLower === "unavailable") {
         span.style.color = "red";
-      }
-      else if (statusLower === "in stock" || statusLower === "available") {
+      } else if (statusLower === "in stock" || statusLower === "available") {
         span.style.color = "green";
-      }
-      else {
+      } else {
         span.style.color = "gray";
       }
 
@@ -391,17 +379,17 @@
         currentProduct.dimensions,
         currentProduct.details,
         currentProduct.warrantyInformation,
-        currentProduct.returnPolicy
+        currentProduct.returnPolicy,
       ];
 
       let mergedEntries = [];
-      possibleSources.forEach(source => {
+      possibleSources.forEach((source) => {
         if (!source) return;
 
         if (typeof source === "object" && !Array.isArray(source)) {
           mergedEntries.push(...Object.entries(source));
         } else if (Array.isArray(source)) {
-          source.forEach(item => {
+          source.forEach((item) => {
             if (item.key && item.value) {
               mergedEntries.push([item.key, item.value]);
             }
@@ -412,7 +400,7 @@
       });
 
       mergedEntries = mergedEntries.filter(
-        (v, i, arr) => arr.findIndex(t => t[0] === v[0]) === i
+        (v, i, arr) => arr.findIndex((t) => t[0] === v[0]) === i
       );
 
       specsTable.innerHTML = "";
@@ -421,11 +409,11 @@
         specsTable.innerHTML = `<tr><td>No specifications available</td></tr>`;
       } else {
         specsTable.innerHTML = `
-    <tr>
-      <th>Specification</th>
-      <th>Details</th>
-    </tr>
-  `;
+          <tr>
+            <th>Specification</th>
+            <th>Details</th>
+          </tr>
+        `;
 
         mergedEntries.forEach(([key, value]) => {
           const tr = document.createElement("tr");
@@ -434,17 +422,14 @@
         });
       }
 
-      if (currentProduct && currentProduct.category){
+      if (currentProduct && currentProduct.category) {
         fetchRelatedProducts(currentProduct.category);
       }
-
-
-
-    }
-    catch (error) {
-      console.error(error.message)
+    } catch (error) {
+      console.error(error.message);
     }
   }
+
   getData();
 
   const addQ = document.querySelector(".add-q");
@@ -475,17 +460,17 @@
     if (!token) {
       showNotification("Please sign in before adding items to your cart.", "error");
       setTimeout(() => {
-        window.location.href = '/login';
+        window.location.href = "/login";
       }, 2000);
       return;
     }
 
     try {
-      const res = await fetch('/api/cart', {
+      const res = await fetch("/api/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify({
           product_id: currentProduct.id,
@@ -494,8 +479,9 @@
           image_url: currentProduct.thumbnail,
           description: currentProduct.description,
           quantity: quantity,
-        })
+        }),
       });
+
       const data = await res.json();
 
       if (!res.ok) {
@@ -505,20 +491,18 @@
       }
 
       showNotification(`Added "${currentProduct.title}" to your cart.`, "success");
-
     } catch (err) {
       console.error(err);
-      showNotification("We ran into a network error. Please try again in a moment.", "error");
+      showNotification(
+        "We ran into a network error. Please try again in a moment.",
+        "error"
+      );
     }
-
   });
-
-
-
 </script>
 
+<!-- Star generation + reviews -->
 <script>
-
   function generateStars(rating) {
     const starDiv = document.createElement("div");
     starDiv.className = "star-rating";
@@ -552,9 +536,10 @@
     const productId = localStorage.getItem("selectedProductId");
     if (!productId) return;
 
-    const url = `https://dummyjson.com/products/${productId}`
+    const url = `https://dummyjson.com/products/${productId}`;
+
     try {
-      const res = await fetch(url)
+      const res = await fetch(url);
       if (!res.ok) {
         throw new Error(`Response status ${res.status}`);
       }
@@ -565,49 +550,45 @@
       const ratingContainer = document.getElementById("reviews-container");
       ratingContainer.innerHTML = "";
 
-
       if (reviews.length === 0) {
-        ratingContainer.innerHTML = `<p>No reviews available for this product</p>`
+        ratingContainer.innerHTML = `<p>No reviews available for this product</p>`;
         return;
       }
 
-      reviews.forEach(review => {
-
+      reviews.forEach((review) => {
         const customerReviewDiv = document.createElement("div");
         customerReviewDiv.className = "rating-customer";
 
-        const iconDIv = document.createElement("div");
-        iconDIv.className = "icon-container";
-        iconDIv.innerHTML = `<i class="fa-solid fa-user"></i>`
+        const iconDiv = document.createElement("div");
+        iconDiv.className = "icon-container";
+        iconDiv.innerHTML = `<i class="fa-solid fa-user"></i>`;
 
         const contentDiv = document.createElement("div");
         contentDiv.className = "customer-review";
 
+        const nameEl = document.createElement("h4");
+        nameEl.textContent = review.reviewerName;
 
-        const nameEL = document.createElement("h4");
-        nameEL.textContent = review.reviewerName;
-
-        const emailEL = document.createElement("p");
-        emailEL.className = "email";
-        emailEL.textContent = review.reviewerEmail;
+        const emailEl = document.createElement("p");
+        emailEl.className = "email";
+        emailEl.textContent = review.reviewerEmail;
 
         const starDiv = generateStars(review.rating);
 
-        const dateEL = document.createElement("p");
-        dateEL.className = "dateCreated";
-        dateEL.textContent = new Date(review.date).toLocaleDateString()
+        const dateEl = document.createElement("p");
+        dateEl.className = "dateCreated";
+        dateEl.textContent = new Date(review.date).toLocaleDateString();
 
-        starDiv.appendChild(dateEL)
+        starDiv.appendChild(dateEl);
 
         const commentEl = document.createElement("p");
         commentEl.className = "reviewInfo";
         commentEl.textContent = review.comment;
 
-        contentDiv.append(nameEL, emailEL, starDiv, commentEl);
-        customerReviewDiv.append(iconDIv, contentDiv);
+        contentDiv.append(nameEl, emailEl, starDiv, commentEl);
+        customerReviewDiv.append(iconDiv, contentDiv);
         ratingContainer.appendChild(customerReviewDiv);
-
-      })
+      });
     } catch (err) {
       console.error(err);
     }
@@ -616,15 +597,14 @@
   document.addEventListener("DOMContentLoaded", fetchReviews);
 </script>
 
+<!-- Notification helper -->
 <script>
-  // ----- Top notification helper -----
   const notificationEl = document.getElementById("notification");
   let notificationTimeout;
 
   function showNotification(message, type = "success", duration = 3000) {
     if (!notificationEl) return;
 
-    // Reset classes
     notificationEl.className = "notification";
     notificationEl.textContent = message;
 
@@ -636,7 +616,6 @@
 
     notificationEl.classList.add("show");
 
-    // Auto-hide after duration
     if (notificationTimeout) {
       clearTimeout(notificationTimeout);
     }
@@ -645,15 +624,13 @@
     }, duration);
   }
 
-  // Optional: allow user to click to dismiss immediately
   notificationEl?.addEventListener("click", () => {
     notificationEl.classList.remove("show");
   });
 </script>
 
+<!-- Chat widget logic -->
 <script>
-
-  // ----- Chat widget logic -----
   const chatWidget = document.getElementById("chat-widget");
   const chatToggle = document.getElementById("chat-toggle");
   const chatBody = document.getElementById("chat-body");
@@ -700,15 +677,12 @@
     }
   }
 
-  // Toggle open/close when clicking the bubble
   chatToggle.addEventListener("click", () => {
     chatWidget.classList.toggle("open");
   });
 
-  // Send on button click
   chatSend.addEventListener("click", sendChat);
 
-  // Send on Enter key (Shift+Enter = newline ignored since it's a single-line input)
   chatInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -716,5 +690,4 @@
     }
   });
 </script>
-
 </html>

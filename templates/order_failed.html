@@ -5,6 +5,7 @@
     <title>Order Failed</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
   </head>
+
   <body>
     <div class="page-container">
       <h1>Payment not completed ⚠️</h1>
@@ -14,15 +15,12 @@
       {% endif %}
 
       <p>
-        It looks like your payment wasn’t completed.
+        It looks like your payment wasn't completed.
         You can go back and try again, or return to the home page.
       </p>
 
       <div class="button-row">
-        <!-- Link to your cart or checkout page -->
         <a href="{{ url_for('carts') }}" class="btn-secondary">Return to Cart</a>
-
-        <!-- Change this to your actual home endpoint -->
         <a href="{{ url_for('home') }}" class="btn-primary">Go to Home</a>
       </div>
     </div>
