@@ -8,8 +8,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 75vh;
 }
 
 .btn-primary{
-  background-color: ;
+  background-color: rgb(160, 219, 160);
+  text-decoration: none;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 20px;
+  transition: 0.2s all ease-in-out;
+}
+
+.btn-primary:hover{
+  background-color: rgb(199, 236, 199);
 }
