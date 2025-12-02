@@ -127,9 +127,9 @@ def test_create_product_success_returns_201(client):
     assert resp.status_code == 201
 
     product = resp.get_json()
-    assert product["name"] == "Olive Oil"
-    assert product["price"] == 12.5
-    assert product["inventory"] == 10
+    assert product["name"] == "Huawei Matebook X Pro"
+    assert product["price"] == 1399.99
+    assert product["inventory"] == 75
     assert product["available"] is True
     assert "id" in product
 
