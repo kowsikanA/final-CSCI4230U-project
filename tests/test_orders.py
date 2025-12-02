@@ -115,12 +115,12 @@ def test_create_product_success_returns_201(client):
     resp = client.post(
         "/api/products",
         json={
-            "name": "Olive Oil",
-            "price": 12.5,
-            "inventory": 10,
-            "image_url": "https://cdn.dummyjson.com/product-images/groceries/cooking-oil/thumbnail.webp",
+            "name": "Huawei Matebook X Pro",
+            "price": 1399.99,
+            "inventory": 75,
+            "image_url": "https://cdn.dummyjson.com/product-images/laptops/huawei-matebook-x-pro/thumbnail.webp",
             "available": True,
-            "description": "Fresh olive oil",
+            "description": "The Huawei Matebook X Pro is a slim and stylish laptop with a high-resolution touchscreen display, offering a premium experience for users on the go.",
         },
         headers=headers,
     )
