@@ -62,7 +62,7 @@ The backend is built in **Python/Flask**, the frontend uses HTML/CSS/JS, and dat
 - Instructor can build & run with **no manual setup**
 
 ---
-
+<!--
 ## ⚙️ Environment Variables (`.env`)
 
 Create a `.env` file:
@@ -75,7 +75,7 @@ SQLALCHEMY_DATABASE_URI=sqlite:///db.sqlite3
 ```
 
 ---
-
+-->
 ## ▶️ Running the App Locally
 
 ### 1. Install dependencies
